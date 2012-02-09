@@ -57,7 +57,6 @@ package nl.jorisdormans.phantom2D.gui
 					if (dx!=0 ||dy!=0) {
 						draggedObject.mover.velocity.x = dx / elapsedTime;
 						draggedObject.mover.velocity.y = dy / elapsedTime;
-						trace(draggedObject.mover.velocity);
 					}
 				}
 				
