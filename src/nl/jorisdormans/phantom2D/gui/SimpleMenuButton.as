@@ -18,12 +18,12 @@
 			
 		}
 		
-		override public function initialize(objectLayer:ObjectLayer, position:Vector3D, data:Object = null):void 
+		override public function initialize(objectLayer:ObjectLayer, position:Vector3D, data:Object = null):GameObject 
 		{
 			addComponent(new BoundingBoxAA(position, new Vector3D(100, 20)));
 			addComponent(new SimpleButtonRenderer(data.caption, 14, 0x000000, 0xffffff, 0x006600, 0xffffff, 0x00ff00, 0xffffff, 3));
-			super.initialize(objectLayer, position, data);
 			this.command = data.command;
+			return super.initialize(objectLayer, position, data);
 		}
 		
 		override public function handleMessage(message:String, data:Object = null):int 
