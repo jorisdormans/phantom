@@ -125,7 +125,12 @@ package nl.jorisdormans.phantom2D.core
 			//Check other components
 			for (var i:int = 0; i < components.length; i++) {
 				if (componentClass == null || components[i] is componentClass) {
-					r = components[i].handleMessage(message, data);
+					if (components[i] is Composite) {
+						//composites should pass messages to their components
+						r = components[i].sendMessage(message, data);
+					} else {
+						r = components[i].handleMessage(message, data);
+					}					
 					switch (r) {
 						case Phantom.MESSAGE_HANDLED:
 							result = r;

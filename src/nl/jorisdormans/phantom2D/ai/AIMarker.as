@@ -14,14 +14,8 @@ package nl.jorisdormans.phantom2D.ai
 		
 		public function AIMarker() 
 		{
-			
-		}
-		
-		override public function initialize(objectLayer:ObjectLayer, position:Vector3D, data:Object = null):void 
-		{
-			addComponent(new BoundingCircle(position, 10));
+			addComponent(new BoundingCircle(new Vector3D(), 10));
 			addComponent(new EditorOutlineRenderer(0x00bbff, 3));
-			super.initialize(objectLayer, position, data);
 			doResponse = false;
 		}
 		
