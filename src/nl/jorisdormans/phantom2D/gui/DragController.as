@@ -36,6 +36,8 @@ package nl.jorisdormans.phantom2D.gui
 				mouseDownLoc = new Vector3D(mouseX, mouseY);
 				draggedObject = objectLayer.getObjectAt(mouseDownLoc);
 				
+				
+				
 				if(draggedObject) {
 					draggedObject.sendMessage("startDrag");
 				
@@ -50,20 +52,7 @@ package nl.jorisdormans.phantom2D.gui
 			}
 			
 			if (draggedObject) {
-				
-				if (draggedObject.mover) {
-					var dx:Number = mouseOffSetX + mouseX - draggedObject.shape.position.x;
-					var dy:Number = mouseOffSetY + mouseY - draggedObject.shape.position.y;
-					if (dx!=0 ||dy!=0) {
-						draggedObject.mover.velocity.x = dx / elapsedTime;
-						draggedObject.mover.velocity.y = dy / elapsedTime;
-					}
-				}
-				
-				draggedObject.shape.position.x = mouseX + mouseOffSetX;
-				draggedObject.shape.position.y = mouseY + mouseOffSetY;
-				draggedObject.placeOnTile();
-				draggedObject.sendMessage("dragTo", { x: mouseX, y: mouseY } );
+				draggedObject.sendMessage("dragTo", { x: mouseX + mouseOffSetX, y: mouseY + mouseOffSetY, elapsedTime: elapsedTime } );
 			}
 		}
 		
