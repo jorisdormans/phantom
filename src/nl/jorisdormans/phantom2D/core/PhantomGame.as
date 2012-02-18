@@ -35,6 +35,12 @@ package nl.jorisdormans.phantom2D.core
 		 * Maximu elapsed time (in seconds) to be used between for updates
 		 */
 		protected var maxElapsedTime:Number = 0.1;
+		
+		private var frameCounter:uint;
+		private var frameCountTimer:Number;
+		public static var fps:uint = 0;
+		
+		
 		/**
 		 * Sprite to contain the masking shape
 		 */
@@ -126,6 +132,9 @@ package nl.jorisdormans.phantom2D.core
 			
 			//get timer
 			frameTimer = getTimer();
+			
+			frameCounter = 0;
+			frameCountTimer = 0;
 		}		
 		
 		/**
@@ -158,10 +167,20 @@ package nl.jorisdormans.phantom2D.core
 		 */
 		private function onEnterFrame(e:Event):void 
 		{
-			//Get the elapsed time
+			//Get the elapsed time and calculate fps
 			var time:uint = getTimer();
-			var elapsedTime:Number = Math.min(maxElapsedTime, (time-frameTimer) / 1000);
+			var elapsedTime:Number = (time-frameTimer) / 1000;
+			frameCountTimer += elapsedTime;
+			elapsedTime = Math.min(maxElapsedTime, elapsedTime);
 			frameTimer = time;
+			
+			//fps
+			frameCounter++;
+			if (frameCountTimer >= 1) {
+				frameCountTimer -= 1;
+				fps = frameCounter;
+				frameCounter = 0;
+			}
 			
 			prof.beginProfiling();
 			//update the current screen
