@@ -118,9 +118,9 @@
 		 */
 		public function update(elapsedTime:Number):void {
 			if (focusOn != null) {
-				_target.x = focusOn.shape.position.x;
-				_target.y = focusOn.shape.position.y;
-				_target.z = focusOn.shape.position.z;
+				_target.x = focusOn.position.x;
+				_target.y = focusOn.position.y;
+				_target.z = focusOn.position.z;
 				limitCamera(deadZone);
 				//limitCamera(0);
 			}
@@ -224,8 +224,8 @@
 		 */
 		public function jumpToTarget(jumpThreshold:Number = -1):void {
 			if (focusOn != null) {
-				_target.x = focusOn.shape.position.x;
-				_target.y = focusOn.shape.position.y;
+				_target.x = focusOn.position.x;
+				_target.y = focusOn.position.y;
 				limitCamera(0);
 			}
 			var dx:Number = _position.x - _target.x;

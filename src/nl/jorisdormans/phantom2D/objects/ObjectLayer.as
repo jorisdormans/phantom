@@ -204,7 +204,7 @@ package nl.jorisdormans.phantom2D.objects
 			//if (object1.shape.position.z != object2.shape.position.z) return;
 			if (!object1.canCollideWith(object2) || !object2.canCollideWith(object1)) return;
 			gameScreen.game.prof.begin("collision check");
-			var collision:CollisionData = CollisionData.check(object1.shape, object2.shape);
+			var collision:CollisionData = CollisionData.check(object1, object2);
 			if (collision.interpenetration != CollisionData.NO_INTERPENETRATION) {
 				if (object1.doResponse && object2.doResponse) {
 					if (object1.mover && object2.mover && ((object2.mass<object1.mass*100) && (object1.mass<object2.mass*100))) {
@@ -404,20 +404,28 @@ package nl.jorisdormans.phantom2D.objects
 		
 		private var v1:Vector3D = new Vector3D();
 		private var v2:Vector3D = new Vector3D();
+		private var rayObject:GameObject;
+		private var ray:BoundingLine;
 		public function rayTraceToObject(start:GameObject, target:GameObject, forObject:GameObject=null):Boolean 
 		{
-			v1.x = target.shape.position.x - start.shape.position.x;
-			v1.y = target.shape.position.y - start.shape.position.y;
-			v1.z = target.shape.position.z - start.shape.position.z;
+			if (!rayObject) {
+				rayObject = new GameObject();
+				rayObject.addComponent(ray = new BoundingLine(new Vector3D()));
+				
+			}
+			v1.x = target.position.x - start.position.x;
+			v1.y = target.position.y - start.position.y;
+			v1.z = target.position.z - start.position.z;
+			ray.setLine(v1);
 
-			v2.x = start.shape.position.x + v1.x * 0.5;
-			v2.y = start.shape.position.y + v1.y * 0.5;
-			v2.z = 0;
-			var ray:BoundingLine = new BoundingLine(v2, v1);
+			rayObject.position.x = start.position.x + v1.x * 0.5;
+			rayObject.position.y = start.position.y + v1.y * 0.5;
+			rayObject.position.z = 0;
+			//var ray:BoundingLine = new BoundingLine(v2, v1);
 			for (var i:int = 0; i < objects.length; i++) {
 				if (objects[i] != start && objects[i] != target && (forObject == null || objects[i].canCollideWith(forObject)) && objects[i].doResponse) {
-					if (CollisionData.roughCheck(ray, objects[i].shape)) {
-						if (CollisionData.check(ray, objects[i].shape).interpenetration != CollisionData.NO_INTERPENETRATION) {
+					if (CollisionData.roughCheck(rayObject, objects[i])) {
+						if (CollisionData.check(rayObject, objects[i]).interpenetration != CollisionData.NO_INTERPENETRATION) {
 							return false;
 						}
 					}
@@ -428,18 +436,19 @@ package nl.jorisdormans.phantom2D.objects
 		
 		public function rayTraceToPoint(start:GameObject, target:Vector3D, forObject:GameObject=null):Boolean 
 		{
-			v1.x = target.x - start.shape.position.x;
-			v1.y = target.y - start.shape.position.y;
-			v1.z = target.z - start.shape.position.z;
+			v1.x = target.x - start.position.x;
+			v1.y = target.y - start.position.y;
+			v1.z = target.z - start.position.z;
 
-			v2.x = start.shape.position.x + v1.x * 0.5;
-			v2.y = start.shape.position.y + v1.y * 0.5;
-			v2.z = 0;
-			var ray:BoundingLine = new BoundingLine(v2, v1);
+			rayObject.position.x = start.position.x + v1.x * 0.5;
+			rayObject.position.y = start.position.y + v1.y * 0.5;
+			rayObject.position.z = 0;
+			ray.setLine(v1);
+			
 			for (var i:int = 0; i < objects.length; i++) {
 				if (objects[i] != start && (forObject == null || objects[i].canCollideWith(forObject)) && objects[i].doResponse) {
-					if (CollisionData.roughCheck(ray, objects[i].shape)) {
-						if (CollisionData.check(ray, objects[i].shape).interpenetration != CollisionData.NO_INTERPENETRATION) {
+					if (CollisionData.roughCheck(rayObject, objects[i])) {
+						if (CollisionData.check(rayObject, objects[i]).interpenetration != CollisionData.NO_INTERPENETRATION) {
 							return false;
 						}
 					}

@@ -89,10 +89,13 @@
 		 * @param	shape2
 		 * @return
 		 */
-		public static function roughCheck(shape1:BoundingShape, shape2:BoundingShape):Boolean
+		public static function roughCheck(object1:GameObject, object2:GameObject):Boolean
 		{
-			var r:Number = (shape1.getRoughSize() + shape2.getRoughSize()) / 2;
-			var distance:Vector3D = shape1.position.subtract(shape2.position);
+			if (!object1.shape || !object2.shape) return false;
+			var r:Number = (object1.shape.getRoughSize() + object2.shape.getRoughSize()) / 2;
+			distance.x = object1.position.x - object2.position.x;
+			distance.y = object1.position.y - object2.position.y;
+			distance.z = object1.position.z - object2.position.z;
 			return (r > Math.abs(distance.x) || r > Math.abs(distance.y));
 		}
 		
@@ -102,17 +105,18 @@
 		 * @param	shape2
 		 * @return
 		 */
-		public static function check(shape1:BoundingShape, shape2:BoundingShape):CollisionData
+		public static function check(object1:GameObject, object2:GameObject):CollisionData
 		{
 			data.clear();
+			if (!object1.shape || !object2.shape) return data;
 			//var distance:Vector3D = shape1.position.subtract(shape2.position);
-			distance.x = shape1.position.x - shape2.position.x;
-			distance.y = shape1.position.y - shape2.position.y;
-			distance.z = shape1.position.z - shape2.position.z;
+			distance.x = object1.position.x - object2.position.x;
+			distance.y = object1.position.y - object2.position.y;
+			distance.z = object1.position.z - object2.position.z;
 			
 			//check iso
 			if (doIsometric) {
-				var i:Number = (shape1.position.z + shape1.isoHeight - shape2.position.z);
+				var i:Number = (object1.position.z + object1.shape.isoHeight - object2.position.z);
 				if (i>=0) {
 					data.interpenetration = i;
 					data.normal.x = 0;
@@ -122,7 +126,7 @@
 					data.clear();
 					return data;
 				}
-				i = (shape2.position.z + shape2.isoHeight - shape1.position.z);
+				i = (object2.position.z + object2.shape.isoHeight - object1.position.z);
 				if (i>=0 && i<data.interpenetration) {
 					data.interpenetration = i;
 					data.normal.x = 0;
@@ -134,10 +138,10 @@
 				}
 			}
 			
-			if (shape1 is BoundingCircle && shape2 is BoundingCircle) return checkCircleCircle(shape1 as BoundingCircle, shape2 as BoundingCircle, distance);
-			else if (shape1 is BoundingCircle) return checkCircleOther(shape1 as BoundingCircle, shape2, distance, false);
-			else if (shape2 is BoundingCircle) return checkCircleOther(shape2 as BoundingCircle, shape1, distance, true);
-			else return checkOtherOther(shape1, shape2, distance);
+			if (object1.shape is BoundingCircle && object2.shape is BoundingCircle) return checkCircleCircle(object1, object2, distance);
+			else if (object1.shape is BoundingCircle) return checkCircleOther(object1, object2, distance, false);
+			else if (object2.shape is BoundingCircle) return checkCircleOther(object2, object1, distance, true);
+			else return checkOtherOther(object1, object2, distance);
 		}
 		
 		/**
@@ -147,8 +151,10 @@
 		 * @param	distance
 		 * @return
 		 */
-		protected static function checkOtherOther(shape1:BoundingShape, shape2:BoundingShape, distance:Vector3D):CollisionData
+		protected static function checkOtherOther(object1:GameObject, object2:GameObject, distance:Vector3D):CollisionData
 		{
+			var shape1:BoundingShape = object1.shape;
+			var shape2:BoundingShape = object2.shape;
 			//feedback = new Vector.<Vector3D>();
 			var i:int;
 			var inter1:Number;
@@ -156,7 +162,7 @@
 			//var p:Vector3D;
 			//var p:Vector3D;
 			//var u:Vector3D;
-			var lookingAt:BoundingShape = shape1;
+			var lookingAt:GameObject = object1;
 
 			//project shape2 onto shape1
 			distance2.x = -distance.x;
@@ -188,13 +194,13 @@
 						data.normal.x = u.x;
 						data.normal.y = u.y;
 						data.normal.z = 0;
-						lookingAt = shape2;
+						lookingAt = object2;
 					} else if (inter2 < data.interpenetration) {
 						data.interpenetration = inter2;
 						data.normal.x = -u.x;
 						data.normal.y = -u.y;
 						data.normal.z = 0;
-						lookingAt = shape2;
+						lookingAt = object2;
 					}
 				}
 				
@@ -226,13 +232,13 @@
 					data.normal.x = -u.x;
 					data.normal.y = -u.y;
 					data.normal.z = 0;
-					lookingAt = shape1;
+					lookingAt = object1;
 				} else if (inter2 < data.interpenetration) {
 					data.interpenetration = inter2;
 					data.normal.x = u.x;
 					data.normal.y = u.y;
 					data.normal.z = 0;
-					lookingAt = shape1;
+					lookingAt = object1;
 				}
 			}
 			
@@ -252,7 +258,7 @@
 			//determine the point of collision
 			data.position.x = lookingAt.position.x;
 			data.position.y = lookingAt.position.y;
-			var f:int = (lookingAt == shape1)? -1: 1;
+			var f:int = (lookingAt == object1)? -1: 1;
 			//f = 1;
 			var d:Number;
 			var l:Number = 0;
@@ -266,9 +272,9 @@
 			u.y = 0;
 			u.z = 0;
 			
-			for (i = 0; i < lookingAt.points.length; i++) {
+			for (i = 0; i < lookingAt.shape.points.length; i++) {
 				//p = m.transformVector(lookingAt.points[i]);
-				MathUtil.rotateVector3D(p, lookingAt.points[i], lookingAt.orientation);
+				MathUtil.rotateVector3D(p, lookingAt.shape.points[i], lookingAt.shape.orientation);
 				d = p.dotProduct(data.normal) * f;
 				if (d < l + COLLISION_POINT_DISTANCE) {
 					l = d;
@@ -300,7 +306,9 @@
 		 * @return
 		 */
 
-		protected static function checkCircleCircle(circle1:BoundingCircle, circle2:BoundingCircle, distance:Vector3D):CollisionData {
+		protected static function checkCircleCircle(object1:GameObject, object2:GameObject, distance:Vector3D):CollisionData {
+			var circle1:BoundingCircle = object1.shape as BoundingCircle;
+			var circle2:BoundingCircle = object2.shape as BoundingCircle;
 			distance.z = 0;
 			var r:Number = (circle1.radius + circle2.radius) - distance.length;
 			
@@ -315,8 +323,8 @@
 				data.normal.normalize();
 				data.normal.scaleBy( -1);
 				data.interpenetration = r;
-				data.position.x = circle1.position.x;
-				data.position.y = circle1.position.y;
+				data.position.x = object1.position.x;
+				data.position.y = object1.position.y;
 				data.position.x += (-circle1.radius + data.interpenetration * 0.5)* data.normal.x;
 				data.position.y += (-circle1.radius + data.interpenetration * 0.5)* data.normal.y;
 			}
@@ -332,8 +340,11 @@
 		 * @return
 		 */
 		
-		protected static function checkCircleOther(circle:BoundingCircle, other:BoundingShape, distance:Vector3D, reversed:Boolean = false):CollisionData
+		protected static function checkCircleOther(object1:GameObject, object2:GameObject, distance:Vector3D, reversed:Boolean = false):CollisionData
 		{
+			var circle:BoundingCircle = object1.shape as BoundingCircle;
+			var other:BoundingShape = object2.shape;
+			
 			//feedback = new Vector.<Vector3D>();
 			var i:int;
 			var inter1:Number;
@@ -428,8 +439,8 @@
 				}
 			}
 		
-			data.position.x = circle.position.x;
-			data.position.y = circle.position.y;
+			data.position.x = object1.position.x;
+			data.position.y = object1.position.y;
 			if (reversed) {
 				data.position.x += ( -circle.radius + data.interpenetration * 0.5)* data.normal.x;
 				data.position.y += ( -circle.radius + data.interpenetration * 0.5)* data.normal.y;

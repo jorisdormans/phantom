@@ -316,6 +316,7 @@ package nl.jorisdormans.phantom2D.core
 			if (component is Layer) {
 				maxWidth = Math.max((component as Layer).layerWidth, maxWidth);
 				maxHeight = Math.max((component as Layer).layerHeight, maxHeight);
+				trace("Adding Layer", maxWidth, (component as Layer).layerWidth);
 			}
 			return super.addComponent(component);
 		}

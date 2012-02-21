@@ -28,20 +28,20 @@ package nl.jorisdormans.phantom2D.objects.boundaries
 		override public function updatePhysics(elapsedTime:Number):void 
 		{
 			super.updatePhysics(elapsedTime);
-			if (left && gameObject.shape.position.x - threshold < 0) {
-				gameObject.shape.position.x = threshold;
+			if (left && gameObject.position.x - threshold < 0) {
+				gameObject.position.x = threshold;
 				if (gameObject.mover.velocity.x < 0) gameObject.mover.velocity.x *= bounceRestitution;
 			}
-			if (right && gameObject.shape.position.x + threshold > gameObject.layer.layerWidth) {
-				gameObject.shape.position.x = gameObject.layer.layerWidth - threshold;
+			if (right && gameObject.position.x + threshold > gameObject.layer.layerWidth) {
+				gameObject.position.x = gameObject.layer.layerWidth - threshold;
 				if (gameObject.mover.velocity.x > 0) gameObject.mover.velocity.x *= bounceRestitution;
 			}
-			if (up && gameObject.shape.position.y - threshold < 0) {
-				gameObject.shape.position.y = threshold;
+			if (up && gameObject.position.y - threshold < 0) {
+				gameObject.position.y = threshold;
 				if (gameObject.mover.velocity.y < 0) gameObject.mover.velocity.y *= bounceRestitution;
 			}
-			if (down && gameObject.shape.position.y + threshold> gameObject.layer.layerHeight) {
-				gameObject.shape.position.y = gameObject.layer.layerHeight - threshold;
+			if (down && gameObject.position.y + threshold> gameObject.layer.layerHeight) {
+				gameObject.position.y = gameObject.layer.layerHeight - threshold;
 				if (gameObject.mover.velocity.y > 0) gameObject.mover.velocity.y *= bounceRestitution;
 			}			
 		}

@@ -23,21 +23,33 @@
 		
 		public static var p:Vector3D = new Vector3D();
 		
-		public function BoundingLine(position:Vector3D, line:Vector3D, oneWay:int = 0) 
+		public function BoundingLine(line:Vector3D, oneWay:int = 0) 
 		{
+			super();
 			this.line = line;
-			//originalLine = line.clone();
 			normal = new Vector3D();			
 			unit = line.clone();
 			length = unit.normalize();
-			super(position);
+
 			setNormal();
 			this.oneWay = oneWay;
 			points.push(line.clone());
 			points.push(line.clone());
 			points[0].scaleBy( -0.5);
 			points[1].scaleBy( 0.5);
-			//createProjections();
+			setExtremes();
+		}
+		
+		public function setLine(line:Vector3D):void {
+			this.line = line;
+			unit = line.clone();
+			length = unit.normalize();
+			setNormal();
+			this.oneWay = oneWay;
+			points.push(line.clone());
+			points.push(line.clone());
+			points[0].scaleBy( -0.5);
+			points[1].scaleBy( 0.5);
 			setExtremes();
 		}
 		
@@ -56,8 +68,8 @@
 		
 		override public function drawPhysics(graphics:Graphics, offsetX:Number, offsetY:Number):void 
 		{
-			var dx:Number = position.x - offsetX;
-			var dy:Number = position.y - offsetY;
+			var dx:Number = gameObject.position.x - offsetX;
+			var dy:Number = gameObject.position.y - offsetY;
 			
 			graphics.lineStyle(lineWidth, 0xff0000, 1);
 
@@ -158,8 +170,8 @@
 		
 		override public function pointInShape(pos:Vector3D):Boolean 
 		{
-			p.x = pos.x - position.x;
-			p.y = pos.y - position.y;
+			p.x = pos.x - gameObject.position.x;
+			p.y = pos.y - gameObject.position.y;
 			MathUtil.rotateVector3D(p, p, -orientation);
 			var d:Number = MathUtil.distanceToLine(points[0], unit, length, p);
 			return (d < 4);

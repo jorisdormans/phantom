@@ -20,6 +20,10 @@ package nl.jorisdormans.phantom2D.objects
 	public class GameObject extends Composite
 	{
 		/**
+		 * The object's position on the objectLayer
+		 */
+		public var position:Vector3D;
+		/**
 		 * A direct reference to the BoundingShape component that determines the GameObjects location and shape in the GameScreen
 		 */
 		public var shape:BoundingShape;
@@ -88,6 +92,7 @@ package nl.jorisdormans.phantom2D.objects
 			type = TYPE_NORMAL;
 			id = 0;
 			mass = 1;
+			position = new Vector3D();
 		}
 		
 		
@@ -144,11 +149,7 @@ package nl.jorisdormans.phantom2D.objects
 		 * @param	data		Additional created data
 		 */
 		public function initialize(objectLayer:ObjectLayer, position:Vector3D, data:Object = null):GameObject {
-			if (shape == null) {
-				addComponent(new BoundingShape(position));
-			} else {
-				shape.position = position;
-			}
+			this.position = position;
 			if (objectLayer) {
 				objectLayer.addGameObjectSorted(this);
 			}
@@ -163,7 +164,7 @@ package nl.jorisdormans.phantom2D.objects
 			var tiledLayer:TiledObjectLayer = layer as TiledObjectLayer;
 			if (tiledLayer) {
 				//get the current tile
-				var t:Tile = tiledLayer.getTile(shape.position);
+				var t:Tile = tiledLayer.getTile(position);
 				//update tile information if the object is in a different tile
 				if (t != tile) {
 					if (tile!=null) tile.removeGameObject(this);
@@ -248,9 +249,9 @@ package nl.jorisdormans.phantom2D.objects
 		 * @return			True when it is visible, false when it is not.
 		 */
 		public function isVisible(margin:Number):Boolean {
-			if (!shape || layer.gameScreen.camera.position.z != shape.position.z) return false;
-			var dx:Number = Math.abs(layer.gameScreen.camera.position.x - shape.position.x) - margin;
-			var dy:Number = Math.abs(layer.gameScreen.camera.position.y - shape.position.y) - margin;
+			if (!shape || layer.gameScreen.camera.position.z != position.z) return false;
+			var dx:Number = Math.abs(layer.gameScreen.camera.position.x - position.x) - margin;
+			var dy:Number = Math.abs(layer.gameScreen.camera.position.y - position.y) - margin;
 			return (dx*2 <= layer.gameScreen.screenWidth && dy*2 <= layer.gameScreen.screenHeight);
 		}
 		
@@ -263,7 +264,7 @@ package nl.jorisdormans.phantom2D.objects
 			var l:int = components.length;
 			for (var i:int = 0; i < l; i++) {
 				if (components[i] is IRenderable) {
-					(components[i] as IRenderable).render(graphics, shape.position.x - x, shape.position.y - y, angle + shape.orientation, zoom);
+					(components[i] as IRenderable).render(graphics, position.x - x, position.y - y, angle + shape.orientation, zoom);
 				}
 			}
 		}
@@ -272,9 +273,9 @@ package nl.jorisdormans.phantom2D.objects
 			var xml:XML = <object/>;
 			xml.@c = StringUtil.getObjectClassName(this.toString());
 			if (id > 0) xml.@id = id;
-			xml.@x = Math.floor(shape.position.x);
-			xml.@y = Math.floor(shape.position.y);
-			if (shape.position.z != 0) xml.@z = Math.floor(shape.position.z);
+			xml.@x = Math.floor(position.x);
+			xml.@y = Math.floor(position.y);
+			if (position.z != 0) xml.@z = Math.floor(position.z);
 			if (shape.orientation != 0) xml.@orientation = Math.floor(shape.orientation * MathUtil.TO_DEGREES);
 			for (var i:int = 0; i < components.length; i++) {
 				components[i].setXML(xml);
@@ -284,12 +285,12 @@ package nl.jorisdormans.phantom2D.objects
 		
 		override public function readXML(xml:XML):void {
 			if (xml.@id.length()>0) id = xml.@id;
-			shape.position.x = xml.@x;
-			shape.position.y = xml.@y;
+			position.x = xml.@x;
+			position.y = xml.@y;
 			if (xml.@z.length() > 0) {
-				shape.position.z = xml.@z;
+				position.z = xml.@z;
 			} else {
-				shape.position.z = 0;
+				position.z = 0;
 			}
 			if (xml.@orientation.length() > 0) {
 				var a:Number = xml.@orientation;
@@ -310,9 +311,9 @@ package nl.jorisdormans.phantom2D.objects
 		}
 		
 		public function copySettingsXML(xml:XML):void {
-			xml.@x = Math.floor(shape.position.x);
-			xml.@y = Math.floor(shape.position.y);
-			xml.@z = Math.floor(shape.position.z);
+			xml.@x = Math.floor(position.x);
+			xml.@y = Math.floor(position.y);
+			xml.@z = Math.floor(position.z);
 			xml.@id = id;
 			readXML(xml);
 		}

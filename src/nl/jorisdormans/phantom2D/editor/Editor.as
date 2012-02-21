@@ -334,8 +334,8 @@ package nl.jorisdormans.phantom2D.editor
 						if (e.buttonDown && selectedObject) {
 							if (!doDrag && Math.abs(dragStartX - e.stageX) > 5 || Math.abs(dragStartY - e.stageY) > 5) doDrag = true;
 							if (doDrag) {
-								selectedObject.shape.position.x = mousePositionX;
-								selectedObject.shape.position.y = mousePositionY;
+								selectedObject.position.x = mousePositionX;
+								selectedObject.position.y = mousePositionY;
 								selectedObject.placeOnTile();
 							}
 							hoverObject = selectedObject;
@@ -411,8 +411,8 @@ package nl.jorisdormans.phantom2D.editor
 					break;
 				case LayerData.EDIT_OBJECTS:
 					if (hoverObject && hoverObject.shape) {
-						dx = hoverObject.shape.position.x - currentLayer.gameScreen.camera.left;
-						dy = hoverObject.shape.position.y - currentLayer.gameScreen.camera.top;
+						dx = hoverObject.position.x - currentLayer.gameScreen.camera.left;
+						dy = hoverObject.position.y - currentLayer.gameScreen.camera.top;
 						dx *= scaleFactor;
 						dy *= scaleFactor;
 						sprite.graphics.lineStyle(3, 0x000000, 0.5);
@@ -422,16 +422,16 @@ package nl.jorisdormans.phantom2D.editor
 						sprite.graphics.lineStyle();
 					} else if (toolObject && toolObject.shape) {
 						sprite.graphics.lineStyle(3, 0x000000, 0.5);
-						dx = drawX + toolObject.shape.position.x * scaleFactor;
-						dy = drawY + toolObject.shape.position.y * scaleFactor;
+						dx = drawX + toolObject.position.x * scaleFactor;
+						dy = drawY + toolObject.position.y * scaleFactor;
 						toolObject.shape.drawShape(sprite.graphics, dx, dy, toolObject.shape.orientation, scaleFactor);
 						sprite.graphics.lineStyle(1, 0xffffff);
 						toolObject.shape.drawShape(sprite.graphics, dx, dy, toolObject.shape.orientation, scaleFactor);
 						sprite.graphics.lineStyle();
 					}
 					if (selectedObject && selectedObject.shape) {
-						dx = selectedObject.shape.position.x - currentLayer.gameScreen.camera.left;
-						dy = selectedObject.shape.position.y - currentLayer.gameScreen.camera.top;
+						dx = selectedObject.position.x - currentLayer.gameScreen.camera.left;
+						dy = selectedObject.position.y - currentLayer.gameScreen.camera.top;
 						dx *= scaleFactor;
 						dy *= scaleFactor;
 						sprite.graphics.lineStyle(3, 0x000000, 0.5);

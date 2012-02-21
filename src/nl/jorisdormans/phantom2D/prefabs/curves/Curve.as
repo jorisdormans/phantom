@@ -285,7 +285,7 @@ package nl.jorisdormans.phantom2D.prefabs.curves
 			if (tx == sx || ty == sy) return;
 			
 			var o:GameObject = new layer.curveList[tileClass]();
-			o.shape = new BoundingBoxAA(new Vector3D((sx + tx) * 0.5, (sy + ty) * 0.5), new Vector3D(Math.abs(sx - tx) * 0.5, Math.abs(sy - ty) * 0.5)); 
+			o.shape = new BoundingBoxAA(new Vector3D(Math.abs(sx - tx) * 0.5, Math.abs(sy - ty) * 0.5)); 
 			var previous:GameObject;
 			if (tiles.length > 0) previous = tiles[tiles.length - 1];
 			o.initialize(layer, new Vector3D((sx+tx)*0.5, (sy+ty)*0.5), {previous: previous}); 

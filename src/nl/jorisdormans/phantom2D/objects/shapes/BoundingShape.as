@@ -18,7 +18,6 @@
 		public var points:Vector.<Vector3D>;
 		public var orientation:Number;
 		public var orientationVector:Vector3D;
-		public var position:Vector3D;
 		public var lineWidth:int = 2; 
 		protected var roughSize:Number = -1;
 		public var isoHeight:Number = 0;
@@ -39,13 +38,12 @@
 		 */
 		public var bottom:Number;
 		
-		public function BoundingShape(position:Vector3D)
+		public function BoundingShape()
 		{
 			projections = new Vector.<Vector3D>();
 			points = new Vector.<Vector3D>();
 			orientation = 0;
 			orientationVector = new Vector3D(1, 0, 0);
-			this.position = position.clone();
 			changeShape();
 		}
 		
@@ -62,17 +60,17 @@
 			return false;
 		}
 		
-		public function roughCollisionCheck(other:BoundingShape):Boolean {
+		/*public function roughCollisionCheck(other:BoundingShape):Boolean {
 			return CollisionData.roughCheck(this, other);
 		}
 		
 		public function collisionCheck(other:BoundingShape):CollisionData {
 			return CollisionData.check(this, other);
-		}
+		}*/
 		
 		public function drawPhysics(graphics:Graphics, offsetX:Number, offsetY:Number):void {
-			var dx:Number = position.x - offsetX;
-			var dy:Number = position.y - offsetY;
+			var dx:Number = gameObject.position.x - offsetX;
+			var dy:Number = gameObject.position.y - offsetY;
 			graphics.lineStyle(lineWidth, 0xff0000, 1);
 			drawPositionMark(graphics, dx, dy);
 			drawShape(graphics, offsetX, offsetY);

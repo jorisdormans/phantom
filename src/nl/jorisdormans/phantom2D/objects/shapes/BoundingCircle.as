@@ -4,6 +4,7 @@
 	import flash.display.GraphicsPathCommand;
 	import flash.display.Shape;
 	import flash.geom.Vector3D;
+	import nl.jorisdormans.phantom2D.util.MathUtil;
 	
 	/**
 	 * ...
@@ -13,10 +14,10 @@
 	{
 		public var radius:Number;
 		
-		public function BoundingCircle(position:Vector3D, radius:Number) 
+		public function BoundingCircle(radius:Number) 
 		{
 			this.radius = radius;
-			super(position);
+			super();
 		}
 		
 		override public function changeShape():void {
@@ -28,7 +29,7 @@
 		
 		override public function pointInShape(p:Vector3D):Boolean 
 		{
-			return (Vector3D.distance(p, position) <= radius);
+			return (MathUtil.distanceSquared(p, gameObject.position) <= radius * radius);
 		}
 		
 		override public function drawShape(graphics:Graphics, x:Number, y:Number, angle:Number = 0, zoom:Number = 1):void 

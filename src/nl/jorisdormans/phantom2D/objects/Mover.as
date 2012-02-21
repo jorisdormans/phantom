@@ -51,9 +51,9 @@ package nl.jorisdormans.phantom2D.objects
 		{
 			if(this.applyMovement) {
 				//update position
-				gameObject.shape.position.x += elapsedTime * velocity.x;
-				gameObject.shape.position.y += elapsedTime * velocity.y;
-				gameObject.shape.position.z += elapsedTime * velocity.z;
+				gameObject.position.x += elapsedTime * velocity.x;
+				gameObject.position.y += elapsedTime * velocity.y;
+				gameObject.position.z += elapsedTime * velocity.z;
 				
 				//update velocity
 				velocity.scaleBy(1 - 2 * friction * friction * elapsedTime);
@@ -71,9 +71,9 @@ package nl.jorisdormans.phantom2D.objects
 		 */
 		public function respondToCollision(collision:CollisionData, other:GameObject, factor:Number):void {
 			//resolve interpenetration
-			gameObject.shape.position.x -= factor * collision.normal.x * collision.interpenetration;
-			gameObject.shape.position.y -= factor * collision.normal.y * collision.interpenetration;
-			gameObject.shape.position.z -= factor * collision.normal.z * collision.interpenetration;
+			gameObject.position.x -= factor * collision.normal.x * collision.interpenetration;
+			gameObject.position.y -= factor * collision.normal.y * collision.interpenetration;
+			gameObject.position.z -= factor * collision.normal.z * collision.interpenetration;
 		}
 		
 		/**
@@ -108,6 +108,8 @@ package nl.jorisdormans.phantom2D.objects
 			velocity.z -= factor * dot * collision.normal.z;
 		}
 		
+		
+		private static var n:Vector3D = new Vector3D();
 		/**
 		 * Transfer energy between two objects
 		 * @param	other
@@ -116,7 +118,9 @@ package nl.jorisdormans.phantom2D.objects
 			if (!other.mover) return;
 			// First, find the normalized vector n from the center of
 			// circle1 to the center of circle2
-			var n:Vector3D = gameObject.shape.position.subtract(other.shape.position);
+			n.x = gameObject.position.x - other.position.x;
+			n.y = gameObject.position.y - other.position.y;
+			n.z = gameObject.position.z - other.position.z;
 			n.normalize();
 
 			// Find the length of the component of each of the movement

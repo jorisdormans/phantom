@@ -17,10 +17,10 @@
 		private static var p:Vector3D = new Vector3D();
 		private static var p2:Vector3D = new Vector3D();
 		
-		public function BoundingBoxAA(position:Vector3D, halfSize:Vector3D) 
+		public function BoundingBoxAA(halfSize:Vector3D) 
 		{
 			this.halfSize = halfSize.clone();
-			super(position);
+			super();
 		}
 		
 		override public function changeShape():void {
@@ -35,7 +35,7 @@
 		
 		override public function pointInShape(p:Vector3D):Boolean 
 		{
-			return (Math.abs(p.x - position.x) <= halfSize.x && Math.abs(p.y-position.y) <= halfSize.y);
+			return (Math.abs(p.x - gameObject.position.x) <= halfSize.x && Math.abs(p.y-gameObject.position.y) <= halfSize.y);
 		}
 		
 		override public function drawShape(graphics:Graphics, x:Number, y:Number, angle:Number = 0, zoom:Number = 1):void 

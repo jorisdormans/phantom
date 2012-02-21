@@ -16,9 +16,9 @@
 		private static var p:Vector3D = new Vector3D();
 		private static var p2:Vector3D = new Vector3D();
 		
-		public function BoundingBoxOA(position:Vector3D, halfSize:Vector3D) 
+		public function BoundingBoxOA(halfSize:Vector3D) 
 		{
-			super(position, halfSize);
+			super(halfSize);
 		}
 		
 		override public function changeShape():void {
@@ -89,8 +89,8 @@
 		
 		override public function pointInShape(pos:Vector3D):Boolean 
 		{
-			p.x = pos.x - position.x;
-			p.y = pos.y - position.y;
+			p.x = pos.x - gameObject.position.x;
+			p.y = pos.y - gameObject.position.y;
 			MathUtil.rotateVector3D(p, p, -orientation);
 			for (var i:int = 0; i < projections.length; i += 2) {
 				var dot:Number = p.dotProduct(projections[i]);

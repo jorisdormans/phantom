@@ -133,25 +133,25 @@ package nl.jorisdormans.phantom2D.isometricWorld
 			//*
 			//attempt 2b: as attempt 2, but with slightly smaller extremes which looks better with bounidn circles
 			var f:Number = 0.86; // magic number
-			if (isoSortX>0 && a.shape.position.x + a.shape.left * f >= b.shape.position.x + b.shape.right  * f) {
+			if (isoSortX>0 && a.position.x + a.shape.left * f >= b.position.x + b.shape.right  * f) {
 				return isoSortX;
-			} else if (isoSortX<0 && a.shape.position.x + a.shape.right * f <= b.shape.position.x + b.shape.left * f) {
+			} else if (isoSortX<0 && a.position.x + a.shape.right * f <= b.position.x + b.shape.left * f) {
 				return -isoSortX;
-			} else if (isoSortY>0 && a.shape.position.y + a.shape.top * f >= b.shape.position.y + b.shape.bottom * f) {
+			} else if (isoSortY>0 && a.position.y + a.shape.top * f >= b.position.y + b.shape.bottom * f) {
 				return isoSortY;
-			} else if (isoSortY<0 && a.shape.position.y + a.shape.bottom * f <= b.shape.position.y + b.shape.top * f) {
+			} else if (isoSortY<0 && a.position.y + a.shape.bottom * f <= b.position.y + b.shape.top * f) {
 				return -isoSortY;
-			} else if (a.shape.position.z > b.shape.position.z + b.shape.isoHeight - 1) {
+			} else if (a.position.z > b.position.z + b.shape.isoHeight - 1) {
 				return 1;
-			} else if (isoSortX<0 && a.shape.position.x + a.shape.left * f >= b.shape.position.x + b.shape.right * f) {
+			} else if (isoSortX<0 && a.position.x + a.shape.left * f >= b.position.x + b.shape.right * f) {
 				return isoSortX;
-			} else if (isoSortX>0 && a.shape.position.x + a.shape.right * f <= b.shape.position.x + b.shape.left * f) {
+			} else if (isoSortX>0 && a.position.x + a.shape.right * f <= b.position.x + b.shape.left * f) {
 				return -isoSortX;
-			} else if (isoSortY<0 && a.shape.position.y + a.shape.top * f >= b.shape.position.y + b.shape.bottom * f) {
+			} else if (isoSortY<0 && a.position.y + a.shape.top * f >= b.position.y + b.shape.bottom * f) {
 				return isoSortY;
-			} else if (isoSortY>0 && a.shape.position.y + a.shape.bottom * f <= b.shape.position.y + b.shape.top * f) {
+			} else if (isoSortY>0 && a.position.y + a.shape.bottom * f <= b.position.y + b.shape.top * f) {
 				return -isoSortY;
-			} else if (a.shape.position.z + a.shape.isoHeight < b.shape.position.z + 1) {
+			} else if (a.position.z + a.shape.isoHeight < b.position.z + 1) {
 				return -1;
 			
 			} else {
@@ -286,9 +286,9 @@ package nl.jorisdormans.phantom2D.isometricWorld
 		}
 		
 		private function renderIsoObject(object:GameObject, camera:Camera):void {
-			p.x = object.shape.position.x - camera.position.x;
-			p.y = object.shape.position.y - camera.position.y;
-			p.z = object.shape.position.z
+			p.x = object.position.x - camera.position.x;
+			p.y = object.position.y - camera.position.y;
+			p.z = object.position.z
 			MathUtil.rotateVector3D(p, p, isoYaw);
 			p.x *= isoX;
 			p.y *= isoY;

@@ -19,9 +19,9 @@
 		private static var u:Vector3D = new Vector3D();
 
 		
-		public function BoundingPolygon(position:Vector3D, ... args) 
+		public function BoundingPolygon(... args) 
 		{
-			super(position);
+			super();
 			for (var i:int = 0; i < args.length; i++) {
 				if (args[i] is Vector3D) {
 					points.push(args[i]);
@@ -188,8 +188,8 @@
 		
 		override public function pointInShape(pos:Vector3D):Boolean 
 		{
-			p.x = pos.x - position.x;
-			p.y = pos.y - position.y;
+			p.x = pos.x - gameObject.position.x;
+			p.y = pos.y - gameObject.position.y;
 			MathUtil.rotateVector3D(p, p, -orientation);
 			for (var i:int = 0; i < projections.length; i += 2) {
 				var dot:Number = p.dotProduct(projections[i]);
@@ -209,7 +209,7 @@
 				tries--;
 				result.x = PseudoRandom.nextNumber() * s - s * 0.5;
 				result.y = PseudoRandom.nextNumber() * s - s * 0.5;
-				result.z = position.z;
+				result.z = gameObject.position.z;
 				found = true;
 				for (var i:int = 0; i < projections.length; i += 2) {
 					var dot:Number = result.x * projections[i].x + result.y * projections[i].y;
