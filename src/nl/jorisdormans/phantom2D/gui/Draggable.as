@@ -8,10 +8,12 @@ package nl.jorisdormans.phantom2D.gui
 	 */
 	public class Draggable extends Component 
 	{
+		public var velocityEndWeight:Number;
 		
 		public function Draggable() 
 		{
 			super();	
+			velocityEndWeight = 0.9;
 		}
 		
 		override public function handleMessage(message:String, data:Object = null):int 
@@ -29,8 +31,9 @@ package nl.jorisdormans.phantom2D.gui
 							var dx:Number = data.x - this.gameObject.position.x;
 							var dy:Number = data.y - this.gameObject.position.y;
 							if (dx!=0 || dy!=0) {
-								this.gameObject.mover.velocity.x = dx / data.elapsedTime;
-								this.gameObject.mover.velocity.y = dy / data.elapsedTime;
+								var f:Number = 1 - velocityEndWeight;
+								this.gameObject.mover.velocity.x = this.gameObject.mover.velocity.x * velocityEndWeight + f * (dx / data.elapsedTime);
+								this.gameObject.mover.velocity.y = this.gameObject.mover.velocity.y * velocityEndWeight + f * (dy / data.elapsedTime);
 							}
 						}
 						
