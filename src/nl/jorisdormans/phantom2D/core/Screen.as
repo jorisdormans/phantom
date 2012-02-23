@@ -117,12 +117,6 @@ package nl.jorisdormans.phantom2D.core
 			game.prof.begin("handleInput");
 			if (this is IInputHandler) (this as IInputHandler).handleInput(elapsedTime, game.currentInputState, game.previousInputState);
 			if (paused) return;
-			for (var i:int = 0; i < l; i++) {
-				if (components[i] is IInputHandler) {
-					(components[i] as IInputHandler).handleInput(elapsedTime, game.currentInputState, game.previousInputState);
-				}
-				if (paused) return;
-			}
 			game.previousInputState.copy(game.currentInputState);
 			game.currentInputState.update();
 			game.prof.end("handleInput");
@@ -319,6 +313,18 @@ package nl.jorisdormans.phantom2D.core
 				trace("Adding Layer", maxWidth, (component as Layer).layerWidth);
 			}
 			return super.addComponent(component);
+		}
+		
+		override public function handleInput(elapsedTime:Number, currentState:InputState, previousState:InputState):void 
+		{
+			var l:int = components.length;
+			for (var i:int = 0; i < l; i++) {
+				if (components[i] is IInputHandler) {
+					(components[i] as IInputHandler).handleInput(elapsedTime, game.currentInputState, game.previousInputState);
+				}
+				if (paused) return;
+			}
+
 		}
 		
 		
