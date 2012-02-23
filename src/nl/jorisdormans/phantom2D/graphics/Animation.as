@@ -7,10 +7,12 @@ package nl.jorisdormans.phantom2D.graphics
 	public class Animation 
 	{
 		public var frames:Vector.<int>;
+		public var fps:Number;
 		
-		public function Animation() 
+		public function Animation(fps:Number, frames:Vector.<int>) 
 		{
-			
+			this.fps = fps;
+			this.frames = frames;
 		}
 		
 	}
