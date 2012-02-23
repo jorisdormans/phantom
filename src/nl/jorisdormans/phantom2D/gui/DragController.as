@@ -41,8 +41,8 @@ package nl.jorisdormans.phantom2D.gui
 				if(draggedObject) {
 					draggedObject.sendMessage("startDrag");
 				
-					mouseOffSetX = draggedObject.shape.position.x - mouseX;
-					mouseOffSetY = draggedObject.shape.position.y - mouseY;
+					mouseOffSetX = draggedObject.position.x - mouseX;
+					mouseOffSetY = draggedObject.position.y - mouseY;
 				}
 			}
 			

@@ -26,16 +26,16 @@ package nl.jorisdormans.phantom2D.gui
 				case "dragTo":
 					if (data && data.x && data.y) {
 						if (this.gameObject.mover) {
-							var dx:Number = data.x - this.gameObject.shape.position.x;
-							var dy:Number = data.y - this.gameObject.shape.position.y;
+							var dx:Number = data.x - this.gameObject.position.x;
+							var dy:Number = data.y - this.gameObject.position.y;
 							if (dx!=0 || dy!=0) {
 								this.gameObject.mover.velocity.x = dx / data.elapsedTime;
 								this.gameObject.mover.velocity.y = dy / data.elapsedTime;
 							}
 						}
 						
-						this.gameObject.shape.position.x = data.x;
-						this.gameObject.shape.position.y = data.y;
+						this.gameObject.position.x = data.x;
+						this.gameObject.position.y = data.y;
 						this.gameObject.placeOnTile();
 					}
 					break;
