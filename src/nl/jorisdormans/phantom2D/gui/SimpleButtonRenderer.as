@@ -47,12 +47,12 @@
 		override public function handleMessage(message:String, data:Object = null):int 
 		{
 			switch (message) {
-				case "press": 
+				case GUIKeyboardHandler.E_ONPRESS: 
 					pressed = true;
 					fill = fillPressed;
 					text = textPressed;
-					return Phantom.MESSAGE_CONSUMED;
-				case "release":
+					return Phantom.MESSAGE_HANDLED;
+				case GUIKeyboardHandler.E_ONRELEASE:
 					pressed = false;
 					if (hovering) {
 						fill = fillHover;
@@ -61,20 +61,20 @@
 						fill = fillColor;
 						text = textColor;
 					}
-					return Phantom.MESSAGE_CONSUMED;
-				case "highlight":
+					return Phantom.MESSAGE_HANDLED;
+				case GUIKeyboardHandler.E_ONFOCUS:
 					hovering = true;
 					if (!pressed) {
 						fill = fillHover;
 						text = textHover;
 					}
-					return Phantom.MESSAGE_CONSUMED;
-				case "unhighlight": 
+					return Phantom.MESSAGE_HANDLED;
+				case GUIKeyboardHandler.E_ONBLUR: 
 					hovering = false;
 					pressed = false;
 					fill = fillColor;
 					text = textColor;
-					return Phantom.MESSAGE_CONSUMED;
+					return Phantom.MESSAGE_HANDLED;
 			}
 			return super.handleMessage(message, data);
 		}

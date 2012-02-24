@@ -20,16 +20,18 @@
 		
 		override public function initialize(objectLayer:ObjectLayer, position:Vector3D, data:Object = null):GameObject 
 		{
-			addComponent(new BoundingBoxAA(position, new Vector3D(100, 20)));
+			this.sortOrder = position.y;
+			addComponent(new BoundingBoxAA(new Vector3D(100, 20)));
 			addComponent(new SimpleButtonRenderer(data.caption, 14, 0x000000, 0xffffff, 0x006600, 0xffffff, 0x00ff00, 0xffffff, 3));
+			addComponent(new GUIKeyboardHandler());
 			this.command = data.command;
 			return super.initialize(objectLayer, position, data);
 		}
 		
 		override public function handleMessage(message:String, data:Object = null):int 
 		{
-			if (message == "release") {
-				layer.gameScreen.sendMessage("click " + command, null);
+			if (message == GUIKeyboardHandler.E_ONRELEASE) {
+				layer.gameScreen.sendMessage(command, null);
 				//return GameObjectComponent.MESSAGE_HANDLED;
 			}
 			return super.handleMessage(message, data);

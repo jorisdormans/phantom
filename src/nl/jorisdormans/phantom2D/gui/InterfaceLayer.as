@@ -20,6 +20,8 @@
 		private var mousePosition:Vector3D;
 		private var ignoreCamera:Boolean;
 		
+		//Is obsolete now?
+		
 		
 		public function InterfaceLayer(width:int, height:int, keyboard:Boolean = true, mouse:Boolean = true, ignoreCamera:Boolean = true) 
 		{
