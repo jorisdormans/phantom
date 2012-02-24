@@ -21,20 +21,20 @@
 		override public function updatePhysics(elapsedTime:Number):void 
 		{
 			if (horizontal) {
-				if (gameObject.shape.position.x < -threshold) {
-					gameObject.shape.position.x += threshold * 2 + gameObject.layer.layerWidth;
+				if (gameObject.position.x < -threshold) {
+					gameObject.position.x += threshold * 2 + gameObject.layer.layerWidth;
 					gameObject.placeOnTile();
-				} else if (gameObject.shape.position.x > threshold + gameObject.layer.layerWidth) {
-					gameObject.shape.position.x -= threshold * 2 + gameObject.layer.layerWidth;
+				} else if (gameObject.position.x > threshold + gameObject.layer.layerWidth) {
+					gameObject.position.x -= threshold * 2 + gameObject.layer.layerWidth;
 					gameObject.placeOnTile();
 				}
 			}
 			if (vertical) {
-				if (gameObject.shape.position.y < -threshold) {
-					gameObject.shape.position.y += threshold * 2 + gameObject.layer.layerHeight;
+				if (gameObject.position.y < -threshold) {
+					gameObject.position.y += threshold * 2 + gameObject.layer.layerHeight;
 					gameObject.placeOnTile();
-				} else if (gameObject.shape.position.y > threshold + gameObject.layer.layerHeight) {
-					gameObject.shape.position.y -= threshold * 2 + gameObject.layer.layerHeight;
+				} else if (gameObject.position.y > threshold + gameObject.layer.layerHeight) {
+					gameObject.position.y -= threshold * 2 + gameObject.layer.layerHeight;
 					gameObject.placeOnTile();
 				}
 			}

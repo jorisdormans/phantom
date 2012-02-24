@@ -53,8 +53,8 @@ package nl.jorisdormans.phantom2D.prefabs.adventure
 			adventureMover.moveX = 0;
 			adventureMover.moveY = 0;
 			
-			var dx:Number = currentState.mouseX - (gameObject.shape.position.x - gameObject.layer.gameScreen.camera.left);
-			var dy:Number = currentState.mouseY - (gameObject.shape.position.y - gameObject.layer.gameScreen.camera.top);
+			var dx:Number = currentState.mouseX - (gameObject.position.x - gameObject.layer.gameScreen.camera.left);
+			var dy:Number = currentState.mouseY - (gameObject.position.y - gameObject.layer.gameScreen.camera.top);
 			if (adventureMover.spinning==0) {
 				var a:Number = Math.atan2(dy, dx);
 				adventureMover.wantOrientation = a;

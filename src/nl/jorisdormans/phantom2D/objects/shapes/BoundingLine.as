@@ -25,11 +25,11 @@
 		
 		public function BoundingLine(line:Vector3D, oneWay:int = 0) 
 		{
-			super();
 			this.line = line;
 			normal = new Vector3D();			
 			unit = line.clone();
 			length = unit.normalize();
+			super();
 
 			setNormal();
 			this.oneWay = oneWay;

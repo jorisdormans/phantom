@@ -107,9 +107,9 @@ package nl.jorisdormans.phantom2D.prefabs.items
 					var cos:Number = Math.cos(a);
 					var sin:Number = Math.sin(a);
 					carrying[i].shape.setOrientation(a);
-					carrying[i].shape.position.x = gameObject.shape.position.x + cos * armLength;
-					carrying[i].shape.position.y = gameObject.shape.position.y + sin * armLength;
-					carrying[i].shape.position.z = gameObject.shape.position.z;
+					carrying[i].position.x = gameObject.position.x + cos * armLength;
+					carrying[i].position.y = gameObject.position.y + sin * armLength;
+					carrying[i].position.z = gameObject.position.z;
 					carrying[i].placeOnTile();
 				}
 			}

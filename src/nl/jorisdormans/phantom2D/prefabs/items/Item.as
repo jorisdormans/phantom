@@ -86,7 +86,7 @@ package nl.jorisdormans.phantom2D.prefabs.items
 		public function drop(position:Vector3D, droppedBy:GameObject):void {
 			this.droppedBy = droppedBy;
 			justDropped = pickUpTimeOut; 
-			shape.position = position;
+			this.position = position;
 			if (droppedBy && droppedBy.layer) droppedBy.layer.addGameObjectSorted(this);
 			equipedBy = null;
 			placeOnTile();

@@ -58,7 +58,7 @@ package nl.jorisdormans.phantom2D.particles
 				var particle:Particle = (new particleType() as Particle);
 				if (particle) {
 					var l:Number = life + (Math.random() - Math.random()) * randomLife;
-					var p:Vector3D = gameObject.shape.position.clone();
+					var p:Vector3D = gameObject.position.clone();
 					p.x += randomPosition * (Math.random() - Math.random());
 					p.y += randomPosition * (Math.random() - Math.random());
 					var v:Vector3D = new Vector3D();

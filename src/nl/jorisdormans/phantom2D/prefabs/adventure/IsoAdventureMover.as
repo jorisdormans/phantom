@@ -86,7 +86,7 @@
 			lurch -= Math.min(elapsedTime, lurch);
 			hit -= Math.min(elapsedTime, hit);
 			spinning -= Math.min(elapsedTime, spinning);
-			surface = gameObject.layer.getObjectAt(gameObject.shape.position, Surface) as Surface;
+			surface = gameObject.layer.getObjectAt(gameObject.position, Surface) as Surface;
 			if (surface) {
 				groundFriction = surface.friction;
 				if (surface.message) gameObject.sendMessage(surface.message);
@@ -101,8 +101,8 @@
 			switch (message) {
 				case "hit": 
 					if (data.source is GameObject) {
-						hitX = gameObject.shape.position.x - (data.source as GameObject).shape.position.x;
-						hitY = gameObject.shape.position.y - (data.source as GameObject).shape.position.y;
+						hitX = gameObject.position.x - (data.source as GameObject).position.x;
+						hitY = gameObject.position.y - (data.source as GameObject).position.y;
 						var d:Number = Math.sqrt(hitX * hitX + hitY * hitY);
 						if (d > 0) {
 							hitX /= d;

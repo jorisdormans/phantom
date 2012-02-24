@@ -64,10 +64,6 @@ package nl.jorisdormans.phantom2D.core
 		 * The height of the game in pixels
 		 */
 		public static var gameHeight:Number;
-		/**
-		 * Reference to the initial starting screen
-		 */
-		private var startScreen:Screen;
 		
 		private var editor:Editor;
 		
@@ -77,14 +73,13 @@ package nl.jorisdormans.phantom2D.core
 		 * @param	height		Game height in pixels
 		 * @param	startScreen	Instance to the starting game screen
 		 */
-		public function PhantomGame(width:Number, height:Number, startScreen:Screen = null) 
+		public function PhantomGame(width:Number, height:Number) 
 		{
 			screens = new Vector.<Screen>();
 			currentInputState = new InputState();
 			previousInputState = new InputState();
 			gameWidth = width;
 			gameHeight = height;
-			this.startScreen = startScreen;
 			if (stage) init();
 			else addEventListener(Event.ADDED_TO_STAGE, init);
 		}
@@ -123,10 +118,6 @@ package nl.jorisdormans.phantom2D.core
 			_maskShape.graphics.endFill();
 			addChild(_maskShape);
 			mask = _maskShape;
-			
-			if (startScreen) {
-				addScreen(startScreen);
-			}
 			
 			this.focusRect = null;
 			

@@ -77,10 +77,10 @@ package nl.jorisdormans.phantom2D.prefabs.players
 				if (timer > delay) {
 					if (!player || player.destroyed) {
 						player = new playerClass() as GameObject;
-						player.initialize(gameObject.layer, gameObject.shape.position.clone());
+						player.initialize(gameObject.layer, gameObject.position.clone());
 						player.shape.setOrientation(gameObject.shape.orientation);
 					} else {
-						player.shape.position = gameObject.shape.position.clone();
+						player.position = gameObject.position.clone();
 						player.shape.setOrientation(gameObject.shape.orientation);
 						gameObject.layer.addGameObjectSorted(player);
 					}

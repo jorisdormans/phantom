@@ -16,7 +16,7 @@ package nl.jorisdormans.phantom2D.prefabs.players
 	{
 		public function SafePoint() 
 		{
-			addComponent(new BoundingCircle(new PositionMarker(), 10));
+			addComponent(new BoundingCircle(10));
 			addComponent(new EditorOutlineRenderer(0x888888, 3));
 			addComponent(new BoundingShapeSwitchRenderer(0x00ff00, 0x888888));
 			addComponent(new SafePointComponent());

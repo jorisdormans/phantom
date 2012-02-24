@@ -33,7 +33,7 @@
 					return;
 				}
 			}
-			var p:Vector3D = gameObject.shape.position.clone();
+			var p:Vector3D = gameObject.position.clone();
 			var v:Vector3D = new Vector3D();
 			var cos:Number = Math.cos(gameObject.shape.orientation);
 			var sin:Number = Math.sin(gameObject.shape.orientation);

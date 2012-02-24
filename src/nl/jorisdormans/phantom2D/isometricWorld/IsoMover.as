@@ -22,9 +22,9 @@ package nl.jorisdormans.phantom2D.isometricWorld
 			velocity.z -= gravityZ * elapsedTime;
 			
 			//update position
-			gameObject.shape.position.x += elapsedTime * velocity.x;
-			gameObject.shape.position.y += elapsedTime * velocity.y;
-			gameObject.shape.position.z += elapsedTime * velocity.z;
+			gameObject.position.x += elapsedTime * velocity.x;
+			gameObject.position.y += elapsedTime * velocity.y;
+			gameObject.position.z += elapsedTime * velocity.z;
 			
 			//update velocity
 			var f:Number = 1 - 2 * friction * friction * elapsedTime;
@@ -36,8 +36,8 @@ package nl.jorisdormans.phantom2D.isometricWorld
 			//update tile position
 			gameObject.placeOnTile();			
 			
-			if (gameObject.shape.position.z < 0) {
-				gameObject.shape.position.z = 0;
+			if (gameObject.position.z < 0) {
+				gameObject.position.z = 0;
 				velocity.z = 0;
 			}
 		}

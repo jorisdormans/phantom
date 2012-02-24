@@ -249,7 +249,7 @@ package nl.jorisdormans.phantom2D.prefabs.items
 			}
 			if (!position)
 			{
-				position = gameObject.shape.position.clone();
+				position = gameObject.position.clone();
 				position.x += Math.cos(gameObject.shape.orientation) * gameObject.shape.getRoughSize();
 				position.y += Math.sin(gameObject.shape.orientation) * gameObject.shape.getRoughSize();
 			}
@@ -412,11 +412,11 @@ package nl.jorisdormans.phantom2D.prefabs.items
 						var p:Vector3D;
 						if (items[0].layer)
 						{
-							p = items[0].shape.position;
+							p = items[0].position;
 						}
 						else
 						{
-							p = gameObject.shape.position.clone();
+							p = gameObject.position.clone();
 							p.x += (Math.random() - Math.random()) * 0.5 * gameObject.shape.getRoughSize();
 							p.y += (Math.random() - Math.random()) * 0.5 * gameObject.shape.getRoughSize();
 							items[0].shape.setOrientation(Math.random() * MathUtil.TWO_PI);

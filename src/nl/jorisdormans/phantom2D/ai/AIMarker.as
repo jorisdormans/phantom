@@ -14,7 +14,7 @@ package nl.jorisdormans.phantom2D.ai
 		
 		public function AIMarker() 
 		{
-			addComponent(new BoundingCircle(new Vector3D(), 10));
+			addComponent(new BoundingCircle(10));
 			addComponent(new EditorOutlineRenderer(0x00bbff, 3));
 			doResponse = false;
 		}

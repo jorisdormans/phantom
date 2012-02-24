@@ -45,14 +45,14 @@ package nl.jorisdormans.phantom2D.ai
 			for (var i:int = 0; i < l; i++) {
 				if (gameObject.layer.objects[i] is targetClass) {
 					
-					d.x = gameObject.layer.objects[i].shape.position.x - gameObject.shape.position.x;
-					d.y = gameObject.layer.objects[i].shape.position.y - gameObject.shape.position.y;
-					d.z = gameObject.layer.objects[i].shape.position.z - gameObject.shape.position.z;
+					d.x = gameObject.layer.objects[i].position.x - gameObject.position.x;
+					d.y = gameObject.layer.objects[i].position.y - gameObject.position.y;
+					d.z = gameObject.layer.objects[i].position.z - gameObject.position.z;
 					var dds:Number = d.lengthSquared;
 					
 					var ll:Number;
 					if (lightLayer) {
-						ll = lightLayer.lightAt(gameObject.layer.objects[i].shape.position.x, gameObject.layer.objects[i].shape.position.y);
+						ll = lightLayer.lightAt(gameObject.layer.objects[i].position.x, gameObject.layer.objects[i].position.y);
 					} else {
 						ll = 1;
 					}
@@ -77,9 +77,9 @@ package nl.jorisdormans.phantom2D.ai
 			
 			if (o != null) {
 				targetObject = o;
-				targetLocation.x = targetObject.shape.position.x;
-				targetLocation.y = targetObject.shape.position.y;
-				targetLocation.z = targetObject.shape.position.z;
+				targetLocation.x = targetObject.position.x;
+				targetLocation.y = targetObject.position.y;
+				targetLocation.z = targetObject.position.z;
 				return true;
 			} else {
 				targetObject = null;

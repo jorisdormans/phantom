@@ -162,8 +162,8 @@
 				
 				if (standingOn is ProtoPlatform) {
 					if (standingOn.mover) {
-						gameObject.shape.position.x += standingOn.mover.velocity.x * elapsedTime;
-						gameObject.shape.position.y += standingOn.mover.velocity.y * elapsedTime;
+						gameObject.position.x += standingOn.mover.velocity.x * elapsedTime;
+						gameObject.position.y += standingOn.mover.velocity.y * elapsedTime;
 					}
 					if (accelerating) {
 						//apply friction when moving
@@ -189,8 +189,8 @@
 			//determine ladder and ZSlope settings based on position
 			if (_onFloor < _threshold) {
 				//TODO: This can be improved to get only one test if ProtoSlidingSlope and ProtoLadder share a common ancestor
-				var o:GameObject = gameObject.layer.getObjectAt(gameObject.shape.position, ProtoSlidingSlope);
-				if (o is ProtoSlidingSlope && _skidSlopeY<gameObject.shape.position.y && (velocity.y>100 || _onZSlope>=_threshold)) {
+				var o:GameObject = gameObject.layer.getObjectAt(gameObject.position, ProtoSlidingSlope);
+				if (o is ProtoSlidingSlope && _skidSlopeY<gameObject.position.y && (velocity.y>100 || _onZSlope>=_threshold)) {
 					if (_onZSlope < _threshold) {
 						createDust(Math.min(velocity.y*0.03, 5), velocity.y*0.002, 10, 0xbbff88);
 					}
@@ -199,7 +199,7 @@
 					_skidSlopeY = 0;
 					if (standingOn == null) standingOn = o;
 				}
-				o = gameObject.layer.getObjectAt(gameObject.shape.position, ProtoLadder);
+				o = gameObject.layer.getObjectAt(gameObject.position, ProtoLadder);
 				if (o is ProtoLadder) {
 					_onLadder = 1;
 					executedJumps = 0;				
@@ -239,7 +239,7 @@
 		private function createDust(n:int, life:Number, spread:Number, color:uint = 0xffffff):void {
 			for (var i:int = 0; i < n; i++) { 
 				var particle:Particle = new Particle();
-				var p:Vector3D = gameObject.shape.position.clone();
+				var p:Vector3D = gameObject.position.clone();
 				p.y += 2;
 				p.x += (Math.random() - Math.random()) * spread;
 				var v:Vector3D = new Vector3D((Math.random() - Math.random()) * 40, (Math.random() + Math.random()) * -20);
@@ -305,7 +305,7 @@
 				_noLadder = 0.2;
 				if (_onZSlope >= _threshold) {
 					velocity.y = -gravity.y * jumpingPower;
-					_skidSlopeY = gameObject.shape.position.y;
+					_skidSlopeY = gameObject.position.y;
 				} else {
 					velocity.y = -gravity.y * jumpingPower;
 				}

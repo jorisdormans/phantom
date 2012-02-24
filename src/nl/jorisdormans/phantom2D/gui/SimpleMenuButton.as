@@ -25,6 +25,7 @@
 			addComponent(new SimpleButtonRenderer(data.caption, 14, 0x000000, 0xffffff, 0x006600, 0xffffff, 0x00ff00, 0xffffff, 3));
 			addComponent(new GUIKeyboardHandler());
 			this.command = data.command;
+			trace("initialized");
 			return super.initialize(objectLayer, position, data);
 		}
 		
