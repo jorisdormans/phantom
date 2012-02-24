@@ -85,6 +85,12 @@ package nl.jorisdormans.phantom2D.gui
 				if (!currentState.keyEnter && previousState.keyEnter) {
 					pressed = false;
 				}
+				if (currentState.keySpace && !previousState.keySpace) {
+					pressed = true;
+				}
+				if (!currentState.keySpace && previousState.keySpace) {
+					pressed = false;
+				}
 			} else {
 				_pressed = false;
 			}

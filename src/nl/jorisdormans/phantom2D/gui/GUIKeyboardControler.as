@@ -31,15 +31,19 @@ package nl.jorisdormans.phantom2D.gui
 			objectLayer = composite as ObjectLayer;
 		}
 		
+		public function selectFirst():void {
+			focusedObject = -1;
+			changeFocus(1);
+		}
+		
 		private function changeFocus(delta:int):void {
 			var previousFocus:int = focusedObject;
-			trace("current", focusedObject);
+			//TODO: this might go into an infinite loop when previousFocus = -1 and there are no KeyboardControlled Buttons in the layer
 			while (true) {
 				//change the object to focus on
 				focusedObject += delta;
 				if (focusedObject < 0) focusedObject = objectLayer.objects.length - 1;
 				if (focusedObject >= objectLayer.objects.length) focusedObject = 0;
-				trace("try", focusedObject);
 				
 				//did I go full circle? than break
 				if (focusedObject == previousFocus) {
@@ -48,7 +52,6 @@ package nl.jorisdormans.phantom2D.gui
 				
 				//can I focus on this object, than change focus
 				if (objectLayer.objects[focusedObject].sendMessage(GUIKeyboardHandler.M_FOCUS) == Phantom.MESSAGE_CONSUMED) {
-					trace("focus on", focusedObject);
 					if (previousFocus >= 0) {
 						objectLayer.objects[previousFocus].sendMessage(GUIKeyboardHandler.M_BLUR)
 					}
