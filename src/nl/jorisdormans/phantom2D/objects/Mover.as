@@ -100,12 +100,13 @@ package nl.jorisdormans.phantom2D.objects
 		 * @param	factor
 		 */
 		public function bounce(collision:CollisionData, factor:Number):void {
-			if (collision.normal.dotProduct(velocity) < 0) return;
 			var dot:Number = collision.normal.dotProduct(velocity);
-			factor *= (1+bounceRestitution);
-			velocity.x -= factor * dot * collision.normal.x;
-			velocity.y -= factor * dot * collision.normal.y;
-			velocity.z -= factor * dot * collision.normal.z;
+			if (dot < 0) return; 
+			factor *= (1 + bounceRestitution);
+			factor *= dot;
+			velocity.x -= factor * collision.normal.x;
+			velocity.y -= factor * collision.normal.y;
+			velocity.z -= factor * collision.normal.z;
 		}
 		
 		

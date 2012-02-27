@@ -103,7 +103,7 @@ package nl.jorisdormans.phantom2D.objects
 			gameObject.layer = this;
 			var l:int = objects.length;
 			for (var i:int = l-1; i >= 0; i--) {
-				if (objects[i].sortOrder <= gameObject.sortOrder) {
+				if (compareObjects(objects[i], gameObject) <=0 ) {
 					objects.splice(i, 0, gameObject);
 					gameObject.placeOnTile();
 					return;
@@ -154,6 +154,7 @@ package nl.jorisdormans.phantom2D.objects
 			for (var i:int = l-1; i >= 0 ; i--) {
 				objects[i].update(elapsedTime);
 			}
+			super.update(elapsedTime);
 		}
 		
 		override public function updatePhysics(elapsedTime:Number):void {
@@ -185,6 +186,7 @@ package nl.jorisdormans.phantom2D.objects
 					}
 				}
 			}
+			super.updatePhysics(elapsedTime);
 		}
 		
 		protected function checkCollisionsOfObject(index:int):void {
@@ -208,12 +210,15 @@ package nl.jorisdormans.phantom2D.objects
 			if (collision.interpenetration != CollisionData.NO_INTERPENETRATION) {
 				if (object1.doResponse && object2.doResponse) {
 					if (object1.mover && object2.mover && ((object2.mass<object1.mass*100) && (object1.mass<object2.mass*100))) {
-						object2.mover.respondToCollision(collision, object2, -0.5);
-						object1.mover.respondToCollision(collision, object1, 0.5);
+						object2.mover.respondToCollision(collision, object1, -0.5);
+						object1.mover.respondToCollision(collision, object2, 0.5);
 						object1.mover.transferEnergy(object2);
 					} else if (object1.mover && (!object2.mover || object1.mass<object2.mass*100)) {
 						object1.mover.respondToCollision(collision, object2, 1);
 						object1.mover.bounce(collision, 1);
+					} else if (object2.mover && (!object1.mover || object2.mass<object1.mass*100)) {
+						object2.mover.respondToCollision(collision, object1, -1);
+						object2.mover.bounce(collision, -1);
 					}
 				}
 				object1.afterCollisionWith(object2);

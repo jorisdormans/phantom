@@ -76,7 +76,7 @@ package nl.jorisdormans.phantom2D.objects
 		public var mass:Number;
 		
 		/**
-		 * An id used in scripting and message handling
+		 * An id used in scripting and message handling (probably obsolete)
 		 */
 		public var id:int;
 		

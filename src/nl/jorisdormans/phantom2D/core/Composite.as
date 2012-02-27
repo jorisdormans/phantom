@@ -91,12 +91,12 @@ package nl.jorisdormans.phantom2D.core
 		 * @param	index			The index of the component to be returned (0 = first component found)
 		 * @return
 		 */
-		public function getComponentByClass(componentClass:Class, index:int = 0):Component {
+		public function getComponentByClass(componentClass:Class, nth:int = 0):Component {
 			var l:int = components.length;
-			for (var i:int = 0; i < l; i++) {
+			for (var i:int = nth; i < l; i++) {
 				if (components[i] is componentClass) {
-					if (index == 0) return components[i];
-					else index--;
+					if (nth == 0) return components[i];
+					else nth--;
 				}
 			}			
 			return null;
@@ -167,14 +167,12 @@ package nl.jorisdormans.phantom2D.core
 			}
 			
 			//check if anything needs to be removed
-			i = 0;
-			while (i < l) {
+			i = l-1;
+			while (i >= 0) {
 				if (components[i].destroyed) {
 					removeComponentAt(i);
-					l--;
-				} else {
-					i++;
 				}
+				i--;
 			}
 		}		
 		
