@@ -57,9 +57,6 @@ package nl.jorisdormans.phantom2D.objects
 				
 				//update velocity
 				velocity.scaleBy(1 - 2 * friction * friction * elapsedTime);
-				
-				//update tile position
-				gameObject.placeOnTile();
 			}
 		}
 		

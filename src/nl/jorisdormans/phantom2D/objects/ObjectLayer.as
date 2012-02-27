@@ -71,7 +71,6 @@ package nl.jorisdormans.phantom2D.objects
 			}
 			gameObject.layer = this;
 			objects.push(gameObject);
-			gameObject.placeOnTile();
 		}
 		
 		/**
@@ -87,7 +86,6 @@ package nl.jorisdormans.phantom2D.objects
 			}
 			gameObject.layer = this;
 			objects.splice(position, 0, gameObject);
-			gameObject.placeOnTile();
 		}
 		
 		/**
@@ -103,14 +101,13 @@ package nl.jorisdormans.phantom2D.objects
 			gameObject.layer = this;
 			var l:int = objects.length;
 			for (var i:int = l-1; i >= 0; i--) {
-				if (compareObjects(objects[i], gameObject) <=0 ) {
-					objects.splice(i, 0, gameObject);
-					gameObject.placeOnTile();
+				if (compareObjects(objects[i], gameObject) < 0 ) {
+					objects.splice(i+1, 0, gameObject);
 					return;
 				}
 			}
-			objects.push(gameObject);
-			gameObject.placeOnTile();
+			//add to begin
+			objects.splice(0, 0, gameObject);
 		}
 
 		/**

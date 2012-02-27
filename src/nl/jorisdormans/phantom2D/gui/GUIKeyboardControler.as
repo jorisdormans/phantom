@@ -13,6 +13,7 @@ package nl.jorisdormans.phantom2D.gui
 	 */
 	public class GUIKeyboardControler extends Component implements IInputHandler
 	{
+		public static const M_FOCUS:String = "focus";
 		public static const UP_DOWN:String = "up-down";
 		public static const LEFT_RIGHT:String = "left-right";
 		private var objectLayer:ObjectLayer;
@@ -29,6 +30,7 @@ package nl.jorisdormans.phantom2D.gui
 		{
 			super.onAdd(composite);
 			objectLayer = composite as ObjectLayer;
+			selectFirst();
 		}
 		
 		public function selectFirst():void {
@@ -37,28 +39,50 @@ package nl.jorisdormans.phantom2D.gui
 		}
 		
 		private function changeFocus(delta:int):void {
-			var previousFocus:int = focusedObject;
-			//TODO: this might go into an infinite loop when previousFocus = -1 and there are no KeyboardControlled Buttons in the layer
+			var o:int = focusedObject;
+			var i:int = 0;
 			while (true) {
 				//change the object to focus on
-				focusedObject += delta;
-				if (focusedObject < 0) focusedObject = objectLayer.objects.length - 1;
-				if (focusedObject >= objectLayer.objects.length) focusedObject = 0;
+				o += delta;
+				if (o < 0) o = objectLayer.objects.length - 1;
+				if (o >= objectLayer.objects.length) o = 0;
 				
+				i++;
 				//did I go full circle? than break
-				if (focusedObject == previousFocus) {
+				if (i>=objectLayer.objects.length) {
 					break;
 				}
 				
 				//can I focus on this object, than change focus
-				if (objectLayer.objects[focusedObject].sendMessage(GUIKeyboardHandler.M_FOCUS) == Phantom.MESSAGE_CONSUMED) {
-					if (previousFocus >= 0) {
-						objectLayer.objects[previousFocus].sendMessage(GUIKeyboardHandler.M_BLUR)
-					}
+				if (objectLayer.objects[o].sendMessage(GUIKeyboardHandler.M_FOCUS) == Phantom.MESSAGE_CONSUMED) {
 					break;
 				}
 			}
 		}
+		
+		private function setFocus(gameObject:GameObject):void {
+			for (var i:int = 0; i < objectLayer.objects.length; i++) {
+				if (objectLayer.objects[i] == gameObject) {
+					if (i != focusedObject && focusedObject>=0) {
+						objectLayer.objects[focusedObject].sendMessage(GUIKeyboardHandler.M_BLUR);
+						
+					}
+					break;
+				}
+			}
+			focusedObject = i;
+		}
+		
+		override public function handleMessage(message:String, data:Object = null):int 
+		{
+			switch (message) {
+				case M_FOCUS:
+					setFocus(data.focus);
+					return Phantom.MESSAGE_HANDLED;
+			}
+			return super.handleMessage(message, data);
+		}
+		
 		
 		/* INTERFACE nl.jorisdormans.phantom2D.objects.IInputHandler */
 		

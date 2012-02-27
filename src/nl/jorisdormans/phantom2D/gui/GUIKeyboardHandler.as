@@ -37,6 +37,9 @@ package nl.jorisdormans.phantom2D.gui
 			_focus = value;
 			if (_focus) {
 				parent.sendMessage(E_ONFOCUS);
+				if (gameObject && gameObject.layer) {
+					gameObject.layer.sendMessage(GUIKeyboardControler.M_FOCUS, { focus:gameObject }, GUIKeyboardControler);
+				}
 			} else {
 				parent.sendMessage(E_ONBLUR);
 			}

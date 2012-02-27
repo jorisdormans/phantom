@@ -94,16 +94,6 @@ package nl.jorisdormans.phantom2D.objects
 			while (tiles.length>t) tiles[t].dispose();
 		}
 		
-		override public function addGameObject(gameObject:GameObject):void {
-			super.addGameObject(gameObject);
-			gameObject.placeOnTile();
-		}
-		
-		override public function addGameObjectAt(gameObject:GameObject, position:int):void {
-			super.addGameObjectAt(gameObject, position);
-			gameObject.placeOnTile();
-		}
-
 		/**
 		 * Returns the tile at a specified position
 		 * @param	position

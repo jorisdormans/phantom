@@ -336,7 +336,6 @@ package nl.jorisdormans.phantom2D.editor
 							if (doDrag) {
 								selectedObject.position.x = mousePositionX;
 								selectedObject.position.y = mousePositionY;
-								selectedObject.placeOnTile();
 							}
 							hoverObject = selectedObject;
 						} else {

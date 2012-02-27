@@ -35,6 +35,8 @@ package nl.jorisdormans.phantom2D.objects
 		 * A reference to the ObjectLayer (a GameScreen component) that holds the GameObject. 
 		 */
 		public var layer:ObjectLayer;
+		private var tiledLayer:TiledObjectLayer;
+		private var tiles:Boolean = false;
 		/**
 		 * A reference to the Tile in a TiledObjectLayer (a GameScreen component) that holds the GameObject. 
 		 */
@@ -142,6 +144,14 @@ package nl.jorisdormans.phantom2D.objects
 			return component;
 		}
 		
+		override public function updatePhysics(elapsedTime:Number):void 
+		{
+			super.updatePhysics(elapsedTime);
+			if (tiles) {
+				placeOnTile();
+			}
+		}
+		
 		/**
 		 * Creates GameObjectComponents and adds the GameObject to the specified GameObjectLayer.
 		 * @param	objectLayer	Layer to which the object is to be added.
@@ -152,6 +162,11 @@ package nl.jorisdormans.phantom2D.objects
 			this.position = position;
 			if (objectLayer) {
 				objectLayer.addGameObjectSorted(this);
+				tiledLayer = objectLayer as TiledObjectLayer;
+				if (tiledLayer) {
+					tiles = true;
+					placeOnTile();
+				}
 			}
 			return this;
 		}
@@ -160,16 +175,13 @@ package nl.jorisdormans.phantom2D.objects
 		 * Checks if the object is in a TiledObjectLayer and updates tile data according to its current location
 		 * This needs to be implemented smarter!
 		 */
-		public function placeOnTile():void {
-			var tiledLayer:TiledObjectLayer = layer as TiledObjectLayer;
-			if (tiledLayer) {
-				//get the current tile
-				var t:Tile = tiledLayer.getTile(position);
-				//update tile information if the object is in a different tile
-				if (t != tile) {
-					if (tile!=null) tile.removeGameObject(this);
-					t.addGameObject(this);
-				}
+		private function placeOnTile():void {
+			//get the current tile
+			var t:Tile = tiledLayer.getTile(position);
+			//update tile information if the object is in a different tile
+			if (t != tile) {
+				if (tile!=null) tile.removeGameObject(this);
+				t.addGameObject(this);
 			}
 		}
 		

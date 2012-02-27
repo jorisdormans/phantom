@@ -104,12 +104,11 @@ package nl.jorisdormans.phantom2D.isometricWorld
 			for (var i:int = l-1; i >= 0; i--) {
 				if (compareObjects(objects[i], gameObject)<=0) {
 					objects.splice(i, 0, gameObject);
-					gameObject.placeOnTile();
 					return;
 				}
 			}
 			objects.push(gameObject);
-			gameObject.placeOnTile();		}
+		}
 		
 		override protected function compareObjects(a:GameObject, b:GameObject):int {
 			/*

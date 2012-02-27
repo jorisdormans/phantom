@@ -20,12 +20,12 @@
 		
 		override public function initialize(objectLayer:ObjectLayer, position:Vector3D, data:Object = null):GameObject 
 		{
-			this.sortOrder = position.y;
+			if (data.sortOrder) this.sortOrder = data.sortOrder;
+			else this.sortOrder = position.y;
 			addComponent(new BoundingBoxAA(new Vector3D(100, 20)));
 			addComponent(new SimpleButtonRenderer(data.caption, 14, 0x000000, 0xffffff, 0x006600, 0xffffff, 0x00ff00, 0xffffff, 3));
 			addComponent(new GUIKeyboardHandler());
 			this.command = data.command;
-			trace("initialized");
 			return super.initialize(objectLayer, position, data);
 		}
 		
