@@ -556,10 +556,10 @@ package nl.jorisdormans.phantom2D.editor
 		{
 			if (e.keyCode == Keyboard.SHIFT) shiftKey = true;
 			if (e.keyCode == Keyboard.CONTROL) controlKey = true;
-			if (e.keyCode == Keyboard.LEFT && currentLayer) currentLayer.gameScreen.camera.moveCamera( -cameraMoveDistance, 0);
-			if (e.keyCode == Keyboard.RIGHT && currentLayer) currentLayer.gameScreen.camera.moveCamera(cameraMoveDistance, 0);
-			if (e.keyCode == Keyboard.UP && currentLayer) currentLayer.gameScreen.camera.moveCamera(0, -cameraMoveDistance);
-			if (e.keyCode == Keyboard.DOWN && currentLayer) currentLayer.gameScreen.camera.moveCamera(0, cameraMoveDistance);
+			//if (e.keyCode == Keyboard.LEFT && currentLayer) currentLayer.gameScreen.camera.moveCamera( -cameraMoveDistance, 0);
+			//if (e.keyCode == Keyboard.RIGHT && currentLayer) currentLayer.gameScreen.camera.moveCamera(cameraMoveDistance, 0);
+			//if (e.keyCode == Keyboard.UP && currentLayer) currentLayer.gameScreen.camera.moveCamera(0, -cameraMoveDistance);
+			//if (e.keyCode == Keyboard.DOWN && currentLayer) currentLayer.gameScreen.camera.moveCamera(0, cameraMoveDistance);
 			if (e.keyCode == Keyboard.DELETE || e.keyCode == Keyboard.BACKSPACE) {
 				if (currentData.editMode == LayerData.EDIT_OBJECTS && selectedObject) {
 					(currentLayer as ObjectLayer).removeGameObject(selectedObject);

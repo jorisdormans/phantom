@@ -1,6 +1,7 @@
 ﻿package nl.jorisdormans.phantom2D.core 
 {
 	import flash.geom.Vector3D;
+	import nl.jorisdormans.phantom2D.cameraComponents.CameraMover;
 	import nl.jorisdormans.phantom2D.objects.GameObject;
 	import nl.jorisdormans.phantom2D.objects.ObjectLayer;
 	
@@ -8,47 +9,46 @@
 	 * ...
 	 * @author Joris Dormans
 	 */
-	public class Camera 
+	public class Camera extends Composite
 	{
-		/**
-		 * The Game object currently tracked by the camera
-		 */
-		public var focusOn:GameObject;
+		public static const M_JUMPTO:String = "jumpTo";
 		
-		public var restrictToLayer:ObjectLayer;
-		public var restrictHorizontal:Boolean = true;
-		public var restrictVertical:Boolean = true;
-		public var wrapCamera:Boolean = false;
+	//TO DO: refactor all behavior into camera components
+		
+		
+		//public var restrictToLayer:ObjectLayer;
+		//public var restrictHorizontal:Boolean = true;
+		//public var restrictVertical:Boolean = true;
+		//public var wrapCamera:Boolean = false;
 		/**
 		 * The GameScreen the camera is looking at
 		 */
 		public var screen:Screen;
-		private var _position:Vector3D;
-		private var _target:Vector3D;
-		private var _easing:Number;
+		public var position:Vector3D;
+		public var target:Vector3D;
 		
 		public var angle:Number = 0;
 		public var zoom:Number = 1;
 		/**
 		 * The maximum movement speed along the X and Y axis measured in pixels/second.
 		 */
-		public var maxSpeed:Number = 15 * 30;
+		//public var maxSpeed:Number = 15 * 30;
 		/**
 		 * The camera's lower movement threshold. If the target is less than this distance away, it will not move.
 		 */
-		public var deadZone:Number = 32;
+		//public var deadZone:Number = 32;
 		/**
 		 * The camera's current X velocity
 		 */
-		public var dx:Number;
+		//public var dx:Number;
 		/**
 		 * The camera's current Y velocity
 		 */
-		public var dy:Number;
+		//public var dy:Number;
 		/**
 		 * Setting this value will shake the camera for a number of frames
 		 */
-		public var shake:int = 0;
+		//public var shake:int = 0;
 		/**
 		 * The left corner of the screens visible area.
 		 */
@@ -66,28 +66,75 @@
 		 */
 		public var bottom:Number = 0;
 		
-		
+		private var mover:CameraMover;
 		
 		/**
 		 * Camera class handle what area of a screen is visible.   
-		 * @param	screen     The GameScreen the camera is fouces on
+		 * @param	screen     The Screen the camera is focused on
 		 * @param	position   The initial camera position
-		 * @param	easing     The easing function, to smooth out camera movement (0-1). The default value of 1 indicates no easing
 		 */
-		public function Camera(screen:Screen, position:Vector3D, easing:Number = 1) 
+		public function Camera(screen:Screen, position:Vector3D) 
 		{
+			super();
 			this.screen = screen;
-			_position = position.clone();
-			_target = position.clone();
-			_easing = easing;
-			focusOn = null;
+			this.position = position;
+			this.target = position.clone();
+			
+			addComponent(new CameraMover());
+			
+			//_target = position.clone();
+			//_easing = easing;
+			//focusOn = null;
+			
 		}
+		
+		override public function addComponent(component:Component):Component 
+		{
+			if (component is CameraMover) {
+				if (mover) {
+					removeComponent(mover);
+				}
+				mover = component as CameraMover;
+			}
+			return super.addComponent(component);
+		}
+		
+		override public function removeComponentAt(index:int):Boolean 
+		{
+			if (components[index] == mover) {
+				mover = null;
+			}
+			return super.removeComponentAt(index);
+		}
+		
+		override public function update(elapsedTime:Number):void 
+		{
+			super.update(elapsedTime);
+			left = position.x - screen.screenWidth * 0.5;
+			top = position.y - screen.screenHeight * 0.5;
+			right = position.x + screen.screenWidth * 0.5;
+			bottom = position.y + screen.screenHeight * 0.5;
+		}
+		
+		override public function handleMessage(message:String, data:Object = null):int 
+		{
+			switch (message) {
+				case M_JUMPTO:
+					target = data.target;
+					break;
+			}
+			return super.handleMessage(message, data);
+		}
+		
+		
+		
+		
 		
 		/**
 		 * Restricts camera movement to screen's world dimensions and a specified deadZone.
 		 * @param	deadZone
 		 */
-		private function limitCamera(deadZone:Number):void {
+		/*private function limitCamera(deadZone:Number):void {
 			//if (_target.x < screen.viewPortWidth * 0.5-deadZone) _target.x = screen.viewPortWidth * 0.5-deadZone;
 			//if (_target.x > screen.maxWidth - screen.viewPortWidth * 0.5+deadZone) _target.x = screen.maxWidth - screen.viewPortWidth * 0.5+deadZone;
 			//if (_target.y < screen.viewPortHeight * 0.5-deadZone) _target.y = screen.viewPortHeight * 0.5-deadZone;
@@ -96,7 +143,7 @@
 			if (restrictToLayer && restrictHorizontal && _target.x > restrictToLayer.layerWidth - screen.screenWidth * 0.5+deadZone) _target.x = restrictToLayer.layerWidth - (screen.screenWidth * 0.5)+deadZone;
 			if (restrictToLayer && restrictVertical && _target.y < screen.screenHeight * 0.5-deadZone) _target.y = screen.screenHeight * 0.5-deadZone
 			if (restrictToLayer && restrictVertical && _target.y > restrictToLayer.layerHeight - screen.screenHeight * 0.5 + deadZone) _target.y = restrictToLayer.layerHeight - screen.screenHeight * 0.5 + deadZone;
-		}
+		}*/
 		
 		/**
 		 * Set the camera focus position to the specified values.
@@ -104,19 +151,19 @@
 		 * @param	y
 		 * @param	z
 		 */
-		public function setFocus(x:Number, y:Number, z:Number = 0):void {
+		/*public function setFocus(x:Number, y:Number, z:Number = 0):void {
 			_target.x = x;
 			_target.y = y;
 			_target.z = z;
 			focusOn = null;
 			limitCamera(0);
-		}
+		}*/
 		
 		/**
 		 * Update the camera position. Should be called once during a game's update loop. Called automatically from GameScreen.update.
 		 * @param	elapsedTime
 		 */
-		public function update(elapsedTime:Number):void {
+		/*public function update(elapsedTime:Number):void {
 			if (focusOn != null) {
 				_target.x = focusOn.position.x;
 				_target.y = focusOn.position.y;
@@ -199,30 +246,30 @@
 			else if (x + y < 1500) s = s * (1500 - x + y) / 1000;
 			else s = 0;
 			if (s > shake) shake = s;
-		}
+		}*/
 		
 		/**
 		 * Retrieves the current target position.
 		 */
-		public function get target():Vector3D { return _target; }
+		//public function get target():Vector3D { return _target; }
 		
 		/**
 		 * Retrieves the current camera position
 		 */
-		public function get position():Vector3D { return _position; }
+		/*public function get position():Vector3D { return _position; }
 		
 		public function get easing():Number { return _easing; }
 		
 		public function set easing(value:Number):void 
 		{
 			_easing = value;
-		}
+		}*/
 		
 		/**
 		 * Immediately move the current camera position to the target position
 		 * @param	jumpThreshold  The lower distance threshold for the jump to happen.
 		 */
-		public function jumpToTarget(jumpThreshold:Number = -1):void {
+		/*public function jumpToTarget(jumpThreshold:Number = -1):void {
 			if (focusOn != null) {
 				_target.x = focusOn.position.x;
 				_target.y = focusOn.position.y;
@@ -254,7 +301,7 @@
 			}			
 			restoreFocus();
 			
-		}
+		}*/
 		
 	}
 	

@@ -23,19 +23,15 @@
 			if (horizontal) {
 				if (gameObject.position.x < -threshold) {
 					gameObject.position.x += threshold * 2 + gameObject.layer.layerWidth;
-					gameObject.placeOnTile();
 				} else if (gameObject.position.x > threshold + gameObject.layer.layerWidth) {
 					gameObject.position.x -= threshold * 2 + gameObject.layer.layerWidth;
-					gameObject.placeOnTile();
 				}
 			}
 			if (vertical) {
 				if (gameObject.position.y < -threshold) {
 					gameObject.position.y += threshold * 2 + gameObject.layer.layerHeight;
-					gameObject.placeOnTile();
 				} else if (gameObject.position.y > threshold + gameObject.layer.layerHeight) {
 					gameObject.position.y -= threshold * 2 + gameObject.layer.layerHeight;
-					gameObject.placeOnTile();
 				}
 			}
 			

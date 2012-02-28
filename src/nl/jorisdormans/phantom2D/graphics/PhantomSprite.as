@@ -16,8 +16,8 @@ package nl.jorisdormans.phantom2D.graphics
 	 */
 	public class PhantomSprite
 	{
-		private var width:uint;
-		private var height:uint;
+		private var _width:uint;
+		private var _height:uint;
 		private var mat:Matrix;
 		private var frames:Vector.<BitmapData>;
 		
@@ -32,8 +32,8 @@ package nl.jorisdormans.phantom2D.graphics
 			
 			//this.data = inst.bitmapData;
 			
-			this.width = width;
-			this.height = height;
+			this._width = width;
+			this._height = height;
 			
 			this.framesX = (inst.width / this.width);
 			this.framesY = (inst.height / this.height);
@@ -103,6 +103,16 @@ package nl.jorisdormans.phantom2D.graphics
 			graphics.endFill();
 			
 			
+		}
+		
+		public function get width():uint 
+		{
+			return _width;
+		}
+		
+		public function get height():uint 
+		{
+			return _height;
 		}
 		
 		

@@ -15,6 +15,8 @@ package nl.jorisdormans.phantom2D.core
 		public var layer:Layer;
 		public var gameScreen:Screen;
 		
+		public var allowInteraction:Boolean = true;
+		
 		/**
 		 * The width of the ObjectLayer
 		 */
@@ -131,8 +133,10 @@ package nl.jorisdormans.phantom2D.core
 		
 		public function handleInput(elapsedTime:Number, currentState:InputState, previousState:InputState):void 
 		{
-			for (var i:int = 0; i < components.length; i++) {
-				if (components[i] is IInputHandler) (components[i] as IInputHandler).handleInput(elapsedTime, currentState, previousState);
+			if (allowInteraction) {
+				for (var i:int = 0; i < components.length; i++) {
+					if (components[i] is IInputHandler) (components[i] as IInputHandler).handleInput(elapsedTime, currentState, previousState);
+				}
 			}
 		}
 		

@@ -75,11 +75,11 @@ package nl.jorisdormans.phantom2D.core
 			transparent = false;
 			propagateUpdate = false;
 			paused = true;
-			camera = new Camera(this, new Vector3D(width * 0.5, height * 0.5));
 			screenWidth = layerWidth;
 			screenHeight = layerHeight;
 			maxWidth = layerWidth;
 			maxHeight = layerHeight;
+			camera = new Camera(this, new Vector3D(screenWidth * 0.5, screenHeight * 0.5));
 		}
 		
 		/**
@@ -310,7 +310,6 @@ package nl.jorisdormans.phantom2D.core
 			if (component is Layer) {
 				maxWidth = Math.max((component as Layer).layerWidth, maxWidth);
 				maxHeight = Math.max((component as Layer).layerHeight, maxHeight);
-				trace("Adding Layer", maxWidth, (component as Layer).layerWidth);
 			}
 			return super.addComponent(component);
 		}

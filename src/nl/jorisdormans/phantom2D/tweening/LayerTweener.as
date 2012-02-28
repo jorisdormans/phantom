@@ -11,6 +11,11 @@ package nl.jorisdormans.phantom2D.tweening
 	 */
 	public class LayerTweener extends Component
 	{
+		public static const M_RESET_TWEEN:String = "resetTween";
+		public static const M_REVERSE_TWEEN:String = "reverseTween";
+		public static const M_SET_TWEEN_TIME:String = "setTweenTime";
+		public static const M_SET_TWEEN_DELAY:String = "setTweenDelay";
+		
 		private var start:Object;
 		private var end:Object;
 		private var current:Number;
@@ -19,15 +24,19 @@ package nl.jorisdormans.phantom2D.tweening
 		private var tweenFunction:Function;
 		private var layer:Layer;
 		private var target:Number;
+		private var onFinish:Function;
+		private var onReversed:Function;
 		
 		
-		public function LayerTweener(start:Object, end:Object, time:Number = 1, delay:Number = 0, tweenFunction:Function = null) 
+		public function LayerTweener(start:Object, end:Object, time:Number = 1, delay:Number = 0, tweenFunction:Function = null, onFinish:Function = null, onReverse:Function = null) 
 		{
 			this.start = start;
 			this.end = end;
 			this.speed = 1/time;
 			this.delay = delay;
 			this.tweenFunction = tweenFunction;
+			this.onFinish = onFinish;
+			this.onReversed = onReversed;
 			current = 0;
 			target = 1;
 			if (this.tweenFunction == null) this.tweenFunction = TweenFunctions.sine;
@@ -58,31 +67,51 @@ package nl.jorisdormans.phantom2D.tweening
 			if (start.y != undefined && end.y != undefined ) {
 				layer.sprite.y = interpolate(start.y, end.y, value);
 			}
+			if (start.scale != undefined && end.scale != undefined ) {
+				layer.sprite.scaleX = layer.sprite.scaleY = interpolate(start.scale, end.scale, value);
+			}
 		}
 		
 		override public function update(elapsedTime:Number):void 
 		{
 			super.update(elapsedTime);
-			var d:Number = MathUtil.clamp(target - current, -elapsedTime * speed, elapsedTime * speed);
-			if (d != 0) {
-				current += d;
-				doTween(current);
+			if (delay > 0) {
+				delay -= elapsedTime;
+			} else {
+				var d:Number = MathUtil.clamp(target - current, -elapsedTime * speed, elapsedTime * speed);
+				if (d != 0) {
+					current += d;
+					doTween(current);
+					//callbacks?
+					if (current == target) {
+						if (target == 1 && onFinish != null) {
+							 onFinish();
+						}
+						if (target == 0 && onReversed != null) {
+							 onReversed();
+						}
+					}
+				}
 			}
 		}
+		
 		
 		override public function handleMessage(message:String, data:Object = null):int 
 		{
 			switch (message) {
-				case "resetTween":
+				case M_RESET_TWEEN:
 					target = 1;
 					current = 0;
 					doTween(current);
 					return Phantom.MESSAGE_HANDLED;
-				case "reverseTween":
+				case M_REVERSE_TWEEN:
 					target = 1 - target;
 					return Phantom.MESSAGE_HANDLED;
-				case "setTweenTime":
+				case M_SET_TWEEN_TIME:
 					speed = 1/data.time;
+					return Phantom.MESSAGE_HANDLED;
+				case M_SET_TWEEN_DELAY:
+					delay = data.delay;
 					return Phantom.MESSAGE_HANDLED;
 					
 			}
