@@ -1,7 +1,6 @@
 ﻿package nl.jorisdormans.phantom2D.core 
 {
 	import flash.geom.Vector3D;
-	import nl.jorisdormans.phantom2D.cameraComponents.CameraMover;
 	import nl.jorisdormans.phantom2D.cameraComponents.FollowObject;
 	import nl.jorisdormans.phantom2D.objects.GameObject;
 	import nl.jorisdormans.phantom2D.objects.ObjectLayer;
@@ -28,29 +27,11 @@
 		public var screen:Screen;
 		public var position:Vector3D;
 		public var target:Vector3D;
+		private var setTarget:Vector3D;
 		
 		public var angle:Number = 0;
 		public var zoom:Number = 1;
-		/**
-		 * The maximum movement speed along the X and Y axis measured in pixels/second.
-		 */
-		//public var maxSpeed:Number = 15 * 30;
-		/**
-		 * The camera's lower movement threshold. If the target is less than this distance away, it will not move.
-		 */
-		//public var deadZone:Number = 32;
-		/**
-		 * The camera's current X velocity
-		 */
-		//public var dx:Number;
-		/**
-		 * The camera's current Y velocity
-		 */
-		//public var dy:Number;
-		/**
-		 * Setting this value will shake the camera for a number of frames
-		 */
-		//public var shake:int = 0;
+		
 		/**
 		 * The left corner of the screens visible area.
 		 */
@@ -68,7 +49,6 @@
 		 */
 		public var bottom:Number = 0;
 		
-		private var mover:CameraMover;
 		
 		/**
 		 * Camera class handle what area of a screen is visible.   
@@ -81,36 +61,15 @@
 			this.screen = screen;
 			this.position = position;
 			this.target = position.clone();
+			this.setTarget = position.clone();
 			
-			addComponent(new CameraMover());
 			
-			//_target = position.clone();
-			//_easing = easing;
-			//focusOn = null;
-			
-		}
-		
-		override public function addComponent(component:Component):Component 
-		{
-			if (component is CameraMover) {
-				if (mover) {
-					removeComponent(mover);
-				}
-				mover = component as CameraMover;
-			}
-			return super.addComponent(component);
-		}
-		
-		override public function removeComponentAt(index:int):Boolean 
-		{
-			if (components[index] == mover) {
-				mover = null;
-			}
-			return super.removeComponentAt(index);
 		}
 		
 		override public function update(elapsedTime:Number):void 
 		{
+			target.x = setTarget.x;
+			target.y = setTarget.y;
 			super.update(elapsedTime);
 			position.x = target.x;
 			position.y = target.y;
@@ -125,13 +84,16 @@
 			switch (message) {
 				case M_JUMP_TO:
 					target = data.target;
-					position.x = target.x;
-					position.y = target.y;
-					position.z = target.z;
+					position.x = setTarget.x = target.x;
+					position.y = setTarget.y = target.y;
+					position.z = setTarget.z = target.z;
 					sendMessage(FollowObject.M_STOP_FOLLOWING);
 					break;
 				case M_MOVE_TO:
 					target = data.target;
+					setTarget.x = target.x;
+					setTarget.y = target.y;
+					setTarget.z = target.z;
 					sendMessage(FollowObject.M_STOP_FOLLOWING);
 					break;
 			}

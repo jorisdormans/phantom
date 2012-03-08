@@ -260,11 +260,13 @@ package nl.jorisdormans.phantom2D.objects
 		 * @param	margin	Number of pixels margin (high numbers will return true more often).
 		 * @return			True when it is visible, false when it is not.
 		 */
-		public function isVisible(margin:Number):Boolean {
-			if (!shape || layer.gameScreen.camera.position.z != position.z) return false;
-			var dx:Number = Math.abs(layer.gameScreen.camera.position.x - position.x) - margin;
-			var dy:Number = Math.abs(layer.gameScreen.camera.position.y - position.y) - margin;
-			return (dx*2 <= layer.gameScreen.screenWidth && dy*2 <= layer.gameScreen.screenHeight);
+		public function isVisible(renderX:Number, renderY:Number, zoom:Number):Boolean {
+			if (layer.gameScreen.camera.position.z != position.z) return false;
+			var margin:Number = 0;
+			if (shape) margin = shape.getRoughSize() * 0.5;
+			margin *= zoom;
+			if (renderX < -margin || renderY < -margin || renderX > layer.gameScreen.screenWidth + margin || renderY > layer.gameScreen.screenHeight + margin) return false;
+			return true;
 		}
 		
 		
@@ -276,7 +278,7 @@ package nl.jorisdormans.phantom2D.objects
 			var l:int = components.length;
 			for (var i:int = 0; i < l; i++) {
 				if (components[i] is IRenderable) {
-					(components[i] as IRenderable).render(graphics, position.x - x, position.y - y, angle + shape.orientation, zoom);
+					(components[i] as IRenderable).render(graphics, x, y, angle + shape.orientation, zoom);
 				}
 			}
 		}

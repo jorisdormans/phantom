@@ -50,11 +50,6 @@ package nl.jorisdormans.phantom2D.objects
 		public var tileList:Array;
 
 		
-		
-		//todo this functionality must also be added to the ObjectLayer
-		public var renderWrappedHorizontal:Boolean = false;
-		public var renderWrappedVertical:Boolean = false;
-		
 		/**
 		 * 
 		 * @param	tileSize				The size of the tiles
@@ -198,6 +193,8 @@ package nl.jorisdormans.phantom2D.objects
 		
 		override public function render(camera:Camera):void 
 		{
+			super.render(camera);
+			return;
 			sprite.graphics.clear();
 			var tx:int = (camera.left / tileSize) - 1;
 			var ty:int = (camera.top / tileSize) - 1;

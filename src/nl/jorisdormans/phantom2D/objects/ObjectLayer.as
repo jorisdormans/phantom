@@ -141,7 +141,27 @@ package nl.jorisdormans.phantom2D.objects
 			var i:int = 0;
 			var l:int = objects.length;
 			while (i < l) {
-				objects[i].render(sprite.graphics, camera.left, camera.top, camera.angle, camera.zoom);
+				var rx:Number = objects[i].position.x - camera.left;
+				var ry:Number = objects[i].position.y - camera.top;
+				
+				if (renderWrappedHorizontal) {
+					var dx:Number = objects[i].position.x - camera.position.x;
+					var d:Number = layerWidth * 0.5;
+					if (dx < -d) rx += layerWidth;
+					if (dx >= d) rx -= layerWidth;
+				}
+				
+				if (renderWrappedVertical) {
+					var dy:Number = objects[i].position.y - camera.position.y;
+					d = layerHeight * 0.5;
+					if (dy < -d) ry += layerHeight;
+					if (dy >= d) ry -= layerHeight;
+				}
+				
+				if (objects[i].isVisible(rx, ry, camera.zoom)) {
+					objects[i].render(sprite.graphics, rx, ry, camera.angle, camera.zoom);
+				}
+				
 				i++;
 			}
 		}	

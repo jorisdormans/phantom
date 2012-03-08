@@ -24,6 +24,12 @@ package nl.jorisdormans.phantom2D.cameraComponents
 			}
 		}
 		
+		override public function onRemove():void 
+		{
+			camera = null;
+			super.onRemove();
+		}
+		
 	}
 
 }

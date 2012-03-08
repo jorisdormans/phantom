@@ -19,6 +19,12 @@ package nl.jorisdormans.phantom2D.cameraComponents
 			this.vertical = vertical;
 		}
 		
+		override public function onRemove():void 
+		{
+			layer = null;
+			super.onRemove();
+		}
+		
 		override public function update(elapsedTime:Number):void 
 		{
 			if (horizontal) {

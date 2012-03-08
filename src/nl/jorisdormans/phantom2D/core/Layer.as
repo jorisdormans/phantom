@@ -15,6 +15,11 @@ package nl.jorisdormans.phantom2D.core
 		public var layer:Layer;
 		public var gameScreen:Screen;
 		
+		protected var renderWrappedHorizontal:Boolean = false;
+		protected var renderWrappedVertical:Boolean = false;
+		
+		public static const M_SET_WRAPPED:String = "setWrapped";
+		
 		public var allowInteraction:Boolean = true;
 		
 		/**
@@ -71,6 +76,17 @@ package nl.jorisdormans.phantom2D.core
 		
 		public function clear():void {
 		
+		}
+		
+		override public function handleMessage(message:String, data:Object = null):int 
+		{
+			switch (message) {
+				case M_SET_WRAPPED:
+					renderWrappedHorizontal = data.horizontal;
+					renderWrappedVertical = data.vertical;
+					return Phantom.MESSAGE_HANDLED;
+			}
+			return super.handleMessage(message, data);
 		}
 		
 		/**

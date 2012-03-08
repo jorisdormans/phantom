@@ -15,9 +15,6 @@ package nl.jorisdormans.phantom2D.particles
 		private var particles:Vector.<Particle>
 		private var particleLimit:int;
 		
-		public var renderWrappedHorizontal:Boolean = false;
-		public var renderWrappedVertical:Boolean = false;
-		
 		/**
 		 * Creates an instance of the ParticleLayer class.
 		 * @param	particleLimit 	The maximum number of particles that can be active at the some time in the layer.

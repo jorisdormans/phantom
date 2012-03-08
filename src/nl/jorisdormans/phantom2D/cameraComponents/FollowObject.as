@@ -18,6 +18,12 @@ package nl.jorisdormans.phantom2D.cameraComponents
 			this.following = following;
 		}
 		
+		override public function onRemove():void 
+		{
+			following = null;
+			super.onRemove();
+		}
+		
 		override public function update(elapsedTime:Number):void 
 		{
 			super.update(elapsedTime);
