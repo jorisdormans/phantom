@@ -22,6 +22,8 @@
 		{
 			addComponent(new BoundingBoxAA(position, new Vector3D(100, 20)));
 			addComponent(new SimpleButtonRenderer(data.caption, 14, 0x000000, 0xffffff, 0x006600, 0xffffff, 0x00ff00, 0xffffff, 3));
+			addComponent(new GUIKeyboardHandler());
+			addComponent(new MouseHandler());
 			this.command = data.command;
 			return super.initialize(objectLayer, position, data);
 		}
@@ -31,6 +33,8 @@
 			if (message == "release") {
 				layer.gameScreen.sendMessage("click " + command, null);
 				//return GameObjectComponent.MESSAGE_HANDLED;
+			} else if (message == MouseHandler.E_ONRELEASE) {
+				layer.gameScreen.sendMessage(command, null);
 			}
 			return super.handleMessage(message, data);
 		}

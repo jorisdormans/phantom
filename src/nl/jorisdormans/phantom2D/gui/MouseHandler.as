@@ -11,6 +11,12 @@ package nl.jorisdormans.phantom2D.gui
 	 */
 	public class MouseHandler extends Component implements IInputHandler 
 	{
+		
+		public static const E_ONOVER:String = "onOver";
+		public static const E_ONOUT:String = "onOut";
+		public static const E_ONPRESS:String = "onPress";
+		public static const E_ONRELEASE:String = "onRelease";
+		
 		private var mouseLoc:Vector3D;
 		private var oldMouseLoc:Vector3D;
 		private var mouseOver:Boolean;
@@ -33,27 +39,46 @@ package nl.jorisdormans.phantom2D.gui
 			oldMouseOver = this.gameObject.shape.pointInShape(oldMouseLoc);
 			
 			if (mouseOver && !mouseHover) {
-				trace("mouseOver");
+				parent.sendMessage(E_ONOVER);
 				//this.gameObject.sendMessage("mouseOver");
 				mouseHover = true;
 			}
 			
 			if (mouseHover && currentState.mouseButton && !mouseDown) {
-				trace("mousePress");
+				parent.sendMessage(E_ONPRESS);
 				mouseDown = true;
 				//this.gameObject.sendMessage("mousePress");
 			} 
 			if (!currentState.mouseButton && mouseDown) {
-				trace("mouseRelease");
+				parent.sendMessage(E_ONRELEASE);
 				mouseDown = false;
 				//this.gameObject.sendMessage("mouseRelease");
 			}
 			
 			if (!mouseOver && oldMouseOver) {
-				trace("mouseOut");
+				parent.sendMessage(E_ONOUT);
 				//this.gameObject.sendMessage("mouseOut");
 				mouseHover = false;
 			}
+		}
+		
+		override public function handleMessage(message:String, data:Object = null):int 
+		{
+			switch (message) {
+				case E_ONPRESS:
+					//focus = true;
+					return Phantom.MESSAGE_CONSUMED;
+				case E_ONRELEASE:
+					//focus = false;
+					return Phantom.MESSAGE_CONSUMED;
+				case E_ONOUT:
+					//focus = !_focus;
+					return Phantom.MESSAGE_CONSUMED;
+				case E_ONOVER:
+					//focus = true;
+					return Phantom.MESSAGE_CONSUMED;
+			}
+			return super.handleMessage(message, data);
 		}
 	}
 

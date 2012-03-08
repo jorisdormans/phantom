@@ -38,7 +38,7 @@ package nl.jorisdormans.phantom2D.objects
 		{
 			super (width, height);
 			objects = new Vector.<GameObject>();
-			this.physicsExecutionCount = Math.max(physicsExecutionCount, 1);
+			this.physicsExecutionCount = Math.max(physicsExecutionCount, 4);
 			objectList = new Array();
 		}
 		
