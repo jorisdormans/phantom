@@ -2,6 +2,7 @@
 {
 	import flash.geom.Vector3D;
 	import nl.jorisdormans.phantom2D.cameraComponents.CameraMover;
+	import nl.jorisdormans.phantom2D.cameraComponents.FollowObject;
 	import nl.jorisdormans.phantom2D.objects.GameObject;
 	import nl.jorisdormans.phantom2D.objects.ObjectLayer;
 	
@@ -11,7 +12,8 @@
 	 */
 	public class Camera extends Composite
 	{
-		public static const M_JUMPTO:String = "jumpTo";
+		public static const M_JUMP_TO:String = "jumpTo";
+		public static const M_MOVE_TO:String = "moveTo";
 		
 	//TO DO: refactor all behavior into camera components
 		
@@ -110,6 +112,8 @@
 		override public function update(elapsedTime:Number):void 
 		{
 			super.update(elapsedTime);
+			position.x = target.x;
+			position.y = target.y;
 			left = position.x - screen.screenWidth * 0.5;
 			top = position.y - screen.screenHeight * 0.5;
 			right = position.x + screen.screenWidth * 0.5;
@@ -119,8 +123,16 @@
 		override public function handleMessage(message:String, data:Object = null):int 
 		{
 			switch (message) {
-				case M_JUMPTO:
+				case M_JUMP_TO:
 					target = data.target;
+					position.x = target.x;
+					position.y = target.y;
+					position.z = target.z;
+					sendMessage(FollowObject.M_STOP_FOLLOWING);
+					break;
+				case M_MOVE_TO:
+					target = data.target;
+					sendMessage(FollowObject.M_STOP_FOLLOWING);
 					break;
 			}
 			return super.handleMessage(message, data);

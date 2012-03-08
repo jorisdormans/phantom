@@ -7,25 +7,15 @@ package nl.jorisdormans.phantom2D.cameraComponents
 	 * ...
 	 * @author Joris Dormans
 	 */
-	public class CameraMover extends Component
+	public class CameraMover extends CameraComponent
 	{
 		
-		private var camera:Camera;
+		
 		
 		public function CameraMover() 
 		{
 			
 		}
-		
-		override public function onAdd(composite:Composite):void 
-		{
-			super.onAdd(composite);
-			camera = composite as Camera;
-			if (!camera) {
-				throw Error("CameraMover must be Camera object");
-			}
-		}
-		
 		
 		override public function update(elapsedTime:Number):void 
 		{
