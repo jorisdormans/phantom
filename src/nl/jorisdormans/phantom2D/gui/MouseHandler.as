@@ -3,6 +3,7 @@ package nl.jorisdormans.phantom2D.gui
 	import flash.geom.Vector3D;
 	import nl.jorisdormans.phantom2D.core.Component;
 	import nl.jorisdormans.phantom2D.core.InputState;
+	import nl.jorisdormans.phantom2D.core.Phantom;
 	import nl.jorisdormans.phantom2D.objects.IInputHandler;
 	
 	/**
