@@ -15,6 +15,9 @@ package nl.jorisdormans.phantom2D.tweening
 		public static const M_REVERSE_TWEEN:String = "reverseTween";
 		public static const M_SET_TWEEN_TIME:String = "setTweenTime";
 		public static const M_SET_TWEEN_DELAY:String = "setTweenDelay";
+		public static const M_PAUSE:String = "pauseTween";
+		public static const M_CONTINUE:String = "continueTween";
+		public static const M_START:String = "startTween";
 		
 		private var start:Object;
 		private var end:Object;
@@ -27,6 +30,7 @@ package nl.jorisdormans.phantom2D.tweening
 		private var onFinish:Function;
 		private var onReversed:Function;
 		
+		private var paused:Boolean;
 		
 		public function LayerTweener(start:Object, end:Object, time:Number = 1, delay:Number = 0, tweenFunction:Function = null, onFinish:Function = null, onReverse:Function = null) 
 		{
@@ -39,6 +43,7 @@ package nl.jorisdormans.phantom2D.tweening
 			this.onReversed = onReversed;
 			current = 0;
 			target = 1;
+			paused = false;
 			if (this.tweenFunction == null) this.tweenFunction = TweenFunctions.sine;
 		}
 		
@@ -75,6 +80,7 @@ package nl.jorisdormans.phantom2D.tweening
 		override public function update(elapsedTime:Number):void 
 		{
 			super.update(elapsedTime);
+			if (paused) return;
 			if (delay > 0) {
 				delay -= elapsedTime;
 			} else {
@@ -112,6 +118,17 @@ package nl.jorisdormans.phantom2D.tweening
 					return Phantom.MESSAGE_HANDLED;
 				case M_SET_TWEEN_DELAY:
 					delay = data.delay;
+					return Phantom.MESSAGE_HANDLED;
+				case M_START:
+					target = 1;
+					current = 0;
+					paused = false;
+					return Phantom.MESSAGE_HANDLED;
+				case M_PAUSE:
+					paused = true;
+					return Phantom.MESSAGE_HANDLED;
+				case M_CONTINUE:
+					paused = false;
 					return Phantom.MESSAGE_HANDLED;
 					
 			}

@@ -50,7 +50,7 @@ package nl.jorisdormans.phantom2D.core
 		}
 		
 		public function sendMessage(message:String, data:Object = null, componentClass:Class = null):int {
-			if (this is componentClass)	{
+			if (componentClass != null && this is componentClass)	{
 				return handleMessage(message, data);
 			} else {
 				return Phantom.MESSAGE_NOT_HANDLED;
