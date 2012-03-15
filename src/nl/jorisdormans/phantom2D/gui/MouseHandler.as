@@ -43,24 +43,34 @@ package nl.jorisdormans.phantom2D.gui
 				parent.sendMessage(E_ONOVER);
 				//this.gameObject.sendMessage("mouseOver");
 				mouseHover = true;
+				trace("mouseOver");
 			}
 			
-			if (mouseHover && currentState.mouseButton && !mouseDown) {
-				parent.sendMessage(E_ONPRESS);
-				mouseDown = true;
-				//this.gameObject.sendMessage("mousePress");
-			} 
-			if (!currentState.mouseButton && mouseDown) {
+			if (mouseHover && !currentState.mouseButton && mouseDown) {
 				parent.sendMessage(E_ONRELEASE);
 				mouseDown = false;
+				trace("mouseRelease");
 				//this.gameObject.sendMessage("mouseRelease");
 			}
 			
-			if (!mouseOver && oldMouseOver) {
+			if (!mouseOver && oldMouseOver && mouseHover) {
 				parent.sendMessage(E_ONOUT);
-				//this.gameObject.sendMessage("mouseOut");
+				trace("mouseOut");
 				mouseHover = false;
 			}
+			
+			if (mouseHover && currentState.mouseButton && !mouseDown) {
+				mouseDown = true;
+				//trace("mouseDown");
+				parent.sendMessage(E_ONPRESS);
+				trace("mousePress");
+			}
+			
+			if (mouseOver && mouseDown) {
+				parent.sendMessage(E_ONPRESS);
+				trace("mousePress");
+				//this.gameObject.sendMessage("mousePress");
+			} 
 		}
 		
 		override public function handleMessage(message:String, data:Object = null):int 
