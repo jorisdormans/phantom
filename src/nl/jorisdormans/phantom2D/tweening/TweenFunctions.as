@@ -21,6 +21,12 @@ package nl.jorisdormans.phantom2D.tweening
 			return Math.cos(MathUtil.clamp(value, 0, 1)*Math.PI)*-0.5+0.5;
 		}
 		
+		private static const overshootConstant:Number = 1/Math.sin(0.6 * Math.PI);
+		public static function overshoot(value:Number):Number {
+			var r:Number = Math.sin(MathUtil.clamp(value, 0, 1) * Math.PI * 0.6) * overshootConstant;
+			return r;
+		}
+		
 		
 	}
 

@@ -53,7 +53,7 @@ package nl.jorisdormans.phantom2D.tweening
 		}
 		
 		private function interpolate(start:Number, end:Number, f:Number):Number {
-			return start + (end - start) * MathUtil.clamp(f, 0, 1);
+			return start + (end - start) * f;
 		}
 		
 		private function doTween(value:Number):void {
