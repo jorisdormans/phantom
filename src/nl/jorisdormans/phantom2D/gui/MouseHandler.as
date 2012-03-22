@@ -17,6 +17,7 @@ package nl.jorisdormans.phantom2D.gui
 		public static const E_ONOUT:String = "onOut";
 		public static const E_ONPRESS:String = "onPress";
 		public static const E_ONRELEASE:String = "onRelease";
+		public static const E_ONBLUR:String = "onBlur";
 		
 		private var mouseLoc:Vector3D;
 		private var oldMouseLoc:Vector3D;
@@ -43,32 +44,32 @@ package nl.jorisdormans.phantom2D.gui
 				parent.sendMessage(E_ONOVER);
 				//this.gameObject.sendMessage("mouseOver");
 				mouseHover = true;
-				trace("mouseOver");
 			}
 			
 			if (mouseHover && !currentState.mouseButton && mouseDown) {
 				parent.sendMessage(E_ONRELEASE);
 				mouseDown = false;
-				trace("mouseRelease");
 				//this.gameObject.sendMessage("mouseRelease");
 			}
 			
 			if (!mouseOver && oldMouseOver && mouseHover) {
 				parent.sendMessage(E_ONOUT);
-				trace("mouseOut");
 				mouseHover = false;
+				if (currentState.mouseButton || mouseDown) {
+					parent.sendMessage(E_ONBLUR);
+				}
 			}
 			
 			if (mouseHover && currentState.mouseButton && !mouseDown) {
 				mouseDown = true;
 				//trace("mouseDown");
 				parent.sendMessage(E_ONPRESS);
-				trace("mousePress");
+				} else {
+					parent.sendMessage(E_ONBLUR);
 			}
 			
 			if (mouseOver && mouseDown) {
 				parent.sendMessage(E_ONPRESS);
-				trace("mousePress");
 				//this.gameObject.sendMessage("mousePress");
 			} 
 		}
@@ -80,6 +81,9 @@ package nl.jorisdormans.phantom2D.gui
 					//focus = true;
 					return Phantom.MESSAGE_CONSUMED;
 				case E_ONRELEASE:
+					//focus = false;
+					return Phantom.MESSAGE_CONSUMED;
+				case E_ONBLUR:
 					//focus = false;
 					return Phantom.MESSAGE_CONSUMED;
 				case E_ONOUT:
