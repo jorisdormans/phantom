@@ -276,9 +276,10 @@ package nl.jorisdormans.phantom2D.objects
 		public function render(graphics:Graphics, x:Number, y:Number, angle:Number, zoom:Number):void 
 		{
 			var l:int = components.length;
+			if (shape) angle += shape.orientation;
 			for (var i:int = 0; i < l; i++) {
 				if (components[i] is IRenderable) {
-					(components[i] as IRenderable).render(graphics, x, y, angle + shape.orientation, zoom);
+					(components[i] as IRenderable).render(graphics, x, y, angle, zoom);
 				}
 			}
 		}
