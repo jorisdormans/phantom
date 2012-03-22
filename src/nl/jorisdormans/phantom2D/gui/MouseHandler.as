@@ -44,19 +44,16 @@ package nl.jorisdormans.phantom2D.gui
 				parent.sendMessage(E_ONOVER);
 				//this.gameObject.sendMessage("mouseOver");
 				mouseHover = true;
-				trace("mouseOver");
 			}
 			
 			if (mouseHover && !currentState.mouseButton && mouseDown) {
 				parent.sendMessage(E_ONRELEASE);
 				mouseDown = false;
-				trace("mouseRelease");
 				//this.gameObject.sendMessage("mouseRelease");
 			}
 			
 			if (!mouseOver && oldMouseOver && mouseHover) {
 				parent.sendMessage(E_ONOUT);
-				trace("mouseOut");
 				mouseHover = false;
 				if (currentState.mouseButton || mouseDown) {
 					parent.sendMessage(E_ONBLUR);
@@ -67,14 +64,12 @@ package nl.jorisdormans.phantom2D.gui
 				mouseDown = true;
 				//trace("mouseDown");
 				parent.sendMessage(E_ONPRESS);
-				trace("mousePress");
 				} else {
 					parent.sendMessage(E_ONBLUR);
 			}
 			
 			if (mouseOver && mouseDown) {
 				parent.sendMessage(E_ONPRESS);
-				trace("mousePress");
 				//this.gameObject.sendMessage("mousePress");
 			} 
 		}
