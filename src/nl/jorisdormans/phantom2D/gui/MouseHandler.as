@@ -26,6 +26,7 @@ package nl.jorisdormans.phantom2D.gui
 		
 		private var mouseHover:Boolean;
 		private var mouseDown:Boolean;
+		private var mouseDownOutside:Boolean;
 		
 		public function MouseHandler() 
 		{
@@ -42,17 +43,9 @@ package nl.jorisdormans.phantom2D.gui
 			
 			if (mouseOver && !mouseHover) {
 				parent.sendMessage(E_ONOVER);
-				//this.gameObject.sendMessage("mouseOver");
 				mouseHover = true;
 			}
-			
-			if (mouseHover && !currentState.mouseButton && mouseDown) {
-				parent.sendMessage(E_ONRELEASE);
-				mouseDown = false;
-				//this.gameObject.sendMessage("mouseRelease");
-			}
-			
-			if (!mouseOver && oldMouseOver && mouseHover) {
+			if (!mouseOver && oldMouseOver) {
 				parent.sendMessage(E_ONOUT);
 				mouseHover = false;
 				if (currentState.mouseButton || mouseDown) {
@@ -60,18 +53,25 @@ package nl.jorisdormans.phantom2D.gui
 				}
 			}
 			
-			if (mouseHover && currentState.mouseButton && !mouseDown) {
-				mouseDown = true;
-				//trace("mouseDown");
-				parent.sendMessage(E_ONPRESS);
+			if (currentState.mouseButton && !mouseDown && !mouseDownOutside) {
+				if(mouseHover && !mouseDownOutside){
+					mouseDown = true;
+					parent.sendMessage(E_ONPRESS);
+				} else {
+					mouseDownOutside = true;
+				}
+			}
+			if (previousState.mouseButton && !currentState.mouseButton) {
+				if (mouseHover && mouseDown) {
+					parent.sendMessage(E_ONRELEASE);
+					mouseHover = false;
+					mouseDown = false;
 				} else {
 					parent.sendMessage(E_ONBLUR);
+				}
+				mouseDown = false;
+				mouseDownOutside = false;
 			}
-			
-			if (mouseOver && mouseDown) {
-				parent.sendMessage(E_ONPRESS);
-				//this.gameObject.sendMessage("mousePress");
-			} 
 		}
 		
 		override public function handleMessage(message:String, data:Object = null):int 
