@@ -64,6 +64,8 @@ package nl.jorisdormans.phantom2D.gui
 			if (previousState.mouseButton && !currentState.mouseButton) {
 				if (mouseHover && mouseDown) {
 					parent.sendMessage(E_ONRELEASE);
+					mouseHover = false;
+					mouseDown = false;
 				} else {
 					parent.sendMessage(E_ONBLUR);
 				}
