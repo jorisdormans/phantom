@@ -7,6 +7,8 @@
 	 */
 	public class LimitedLife extends Component
 	{
+		public static const E_DIED:String = "died";
+		
 		private var life:Number;
 		
 		public function LimitedLife(life:Number) 
@@ -19,8 +21,8 @@
 			super.update(elapsedTime);
 			life-= elapsedTime;
 			if (life <= 0) {
+				gameObject.sendMessage(E_DIED);
 				gameObject.destroyed = true;
-				gameObject.sendMessage("died");
 			}
 		}
 		

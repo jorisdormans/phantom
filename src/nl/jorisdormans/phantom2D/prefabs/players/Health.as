@@ -9,6 +9,8 @@ package nl.jorisdormans.phantom2D.prefabs.players
 	 */
 	public class Health extends Component implements IHudComponent
 	{
+		public static const E_DIED:String = "died";
+		
 		public var maxHealth:Number;
 		public var health:Number;
 		public var damageSpeed:Number;
@@ -76,7 +78,7 @@ package nl.jorisdormans.phantom2D.prefabs.players
 				damaging -= n;
 				health -= n;
 				if (health <= 0) {
-					gameObject.sendMessage("died");
+					gameObject.sendMessage(E_DIED);
 				}
 			}
 		}
