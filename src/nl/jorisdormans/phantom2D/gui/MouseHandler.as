@@ -17,6 +17,7 @@ package nl.jorisdormans.phantom2D.gui
 		public static const E_ONOUT:String = "onOut";
 		public static const E_ONPRESS:String = "onPress";
 		public static const E_ONRELEASE:String = "onRelease";
+		public static const E_ONBLUR:String = "onBlur";
 		
 		private var mouseLoc:Vector3D;
 		private var oldMouseLoc:Vector3D;
@@ -25,7 +26,6 @@ package nl.jorisdormans.phantom2D.gui
 		
 		private var mouseHover:Boolean;
 		private var mouseDown:Boolean;
-		private var mouseDownOutside:Boolean;
 		
 		public function MouseHandler() 
 		{
@@ -42,28 +42,41 @@ package nl.jorisdormans.phantom2D.gui
 			
 			if (mouseOver && !mouseHover) {
 				parent.sendMessage(E_ONOVER);
+				//this.gameObject.sendMessage("mouseOver");
 				mouseHover = true;
-			}
-			if (!mouseOver && oldMouseOver) {
-				parent.sendMessage(E_ONOUT);
-				mouseHover = false;
+				trace("mouseOver");
 			}
 			
-			if (currentState.mouseButton && !mouseDown && !mouseDownOutside) {
-				if(mouseHover && !mouseDownOutside){
-					mouseDown = true;
-					parent.sendMessage(E_ONPRESS);
-				} else {
-					mouseDownOutside = true;
-				}
-			}
-			if (previousState.mouseButton && !currentState.mouseButton) {
-				if (mouseHover && mouseDown) {
-					parent.sendMessage(E_ONRELEASE);
-				}
+			if (mouseHover && !currentState.mouseButton && mouseDown) {
+				parent.sendMessage(E_ONRELEASE);
 				mouseDown = false;
-				mouseDownOutside = false;
+				trace("mouseRelease");
+				//this.gameObject.sendMessage("mouseRelease");
 			}
+			
+			if (!mouseOver && oldMouseOver && mouseHover) {
+				parent.sendMessage(E_ONOUT);
+				trace("mouseOut");
+				mouseHover = false;
+				if (currentState.mouseButton || mouseDown) {
+					parent.sendMessage(E_ONBLUR);
+				}
+			}
+			
+			if (mouseHover && currentState.mouseButton && !mouseDown) {
+				mouseDown = true;
+				//trace("mouseDown");
+				parent.sendMessage(E_ONPRESS);
+				trace("mousePress");
+				} else {
+					parent.sendMessage(E_ONBLUR);
+			}
+			
+			if (mouseOver && mouseDown) {
+				parent.sendMessage(E_ONPRESS);
+				trace("mousePress");
+				//this.gameObject.sendMessage("mousePress");
+			} 
 		}
 		
 		override public function handleMessage(message:String, data:Object = null):int 
@@ -73,6 +86,9 @@ package nl.jorisdormans.phantom2D.gui
 					//focus = true;
 					return Phantom.MESSAGE_CONSUMED;
 				case E_ONRELEASE:
+					//focus = false;
+					return Phantom.MESSAGE_CONSUMED;
+				case E_ONBLUR:
 					//focus = false;
 					return Phantom.MESSAGE_CONSUMED;
 				case E_ONOUT:
