@@ -187,7 +187,7 @@
 				//feedback.push(new Vector3D(shape1.position.x + u.x*p.x, shape1.position.y + u.y*p.x, 0));
 				//feedback.push(new Vector3D(shape1.position.x + u.x*p.y, shape1.position.y + u.y*p.y, 0));
 				
-				if (shape2.gameObject && shape2.gameObject.mover) {
+				//if (shape2.gameObject && shape2.gameObject.mover) {
 					//Only use the interpenetration in the directions of object1 if object2 is a moving object
 					if (inter1 < inter2 && inter1 < data.interpenetration) {
 						data.interpenetration = inter1;
@@ -202,7 +202,7 @@
 						data.normal.z = 0;
 						lookingAt = object2;
 					}
-				}
+				//}
 				
 			}
 			
@@ -400,7 +400,9 @@
 				u.incrementBy(distance2);
 				u.normalize();
 				//for some reason I had this earlier with certain shapes, do not know why...
-				//MathUtil.getNormal2D(u, u);
+				if (other is BoundingPolygon) {
+					MathUtil.getNormal2D(u, u);
+				}
 				
 				other.projection(p, u, distance2);
 				
