@@ -40,7 +40,7 @@ package nl.jorisdormans.phantom2D.tweening
 			this.delay = delay;
 			this.tweenFunction = tweenFunction;
 			this.onFinish = onFinish;
-			this.onReversed = onReversed;
+			this.onReversed = onReverse;
 			current = 0;
 			target = 1;
 			paused = false;
