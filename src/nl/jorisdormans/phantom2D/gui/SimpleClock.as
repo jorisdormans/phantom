@@ -23,10 +23,12 @@ package nl.jorisdormans.phantom2D.gui
 		private var totalTime:Number = 0;
 		private var go:Boolean = false;
 		private var _layer:FridgeScreen;
+		private var _show:Boolean = false;
 		
-		public function SimpleClock() 
+		public function SimpleClock(show:Boolean) 
 		{
 			//trace("SimpleClock: clock added");
+			_show = show;
 		}
 		
 		public function handleInput(elapsedTime:Number, currentState:InputState, previousState:InputState):void 
@@ -58,7 +60,9 @@ package nl.jorisdormans.phantom2D.gui
 			time+= ":";
 			time += (round(t_msecs, 0) > 9) ? (round(t_msecs, 0).toString()) : (round(t_msecs ,0).toString() + "0");
 			//trace("SimpleClock: "+time);
-			_layer.hud.timeText.text = time;
+			if(_show){
+				_layer.hud.timeText.text = time;
+			}
 		}
 		
 		public function getTimeString():String 
@@ -106,7 +110,9 @@ package nl.jorisdormans.phantom2D.gui
 			if (!_layer) {
 				throw new Error("Clock added to Composite that is not an ObjectLayer");
 			} else {
-				_layer.hud.timeText.text = time;
+				if(_show){
+					_layer.hud.timeText.text = time;
+				}
 			}
 		}
 	}
