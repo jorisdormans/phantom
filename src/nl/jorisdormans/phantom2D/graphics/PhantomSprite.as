@@ -115,6 +115,10 @@ package nl.jorisdormans.phantom2D.graphics
 			return _height;
 		}
 		
+		public function get frameCount():uint {
+			return frames.length;
+		}
+		
 		
 		
 		

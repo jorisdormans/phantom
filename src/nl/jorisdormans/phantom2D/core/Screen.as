@@ -159,7 +159,7 @@ package nl.jorisdormans.phantom2D.core
 		public function updateOther(elapsedTime:Number):void {
 			if (propagateUpdate && screenBelow) screenBelow.updateOther(elapsedTime);
 			var l:int = components.length;
-			for (var i:int = 0; i < l; i++) {
+			for (var i:int = l-1; i >= 0; i--) {
 				components[i].update(elapsedTime);
 			}
 			camera.update(elapsedTime);
