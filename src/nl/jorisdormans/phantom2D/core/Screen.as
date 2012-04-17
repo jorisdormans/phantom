@@ -161,7 +161,18 @@ package nl.jorisdormans.phantom2D.core
 			var l:int = components.length;
 			for (var i:int = l-1; i >= 0; i--) {
 				components[i].update(elapsedTime);
+				if (this.destroyed) return;
 			}
+			
+			//check if anything needs to be removed
+			i = l-1;
+			while (i >= 0) {
+				if (components[i].destroyed) {
+					removeComponentAt(i);
+				}
+				i--;
+			}
+			
 			camera.update(elapsedTime);
 		}
 		
