@@ -272,7 +272,11 @@
 			}
 		}
 		
-
+		
+		public static function round(num:Number, precision:int):Number{
+			var decimal:Number = Math.pow(10, precision);
+			return Math.round(decimal* num) / decimal;
+		}
 		
 		
 		
