@@ -11,6 +11,7 @@ package nl.jorisdormans.phantom2D.tweening
 	 */
 	public class LayerTweener extends Component
 	{
+		public static const P_IS_TWEENING:String = "isTweening";
 		public static const M_RESET_TWEEN:String = "resetTween";
 		public static const M_REVERSE_TWEEN:String = "reverseTween";
 		public static const M_SET_TWEEN_TIME:String = "setTweenTime";
@@ -101,6 +102,15 @@ package nl.jorisdormans.phantom2D.tweening
 			}
 		}
 		
+		
+		override public function getProperty(property:String, componentClass:Class = null):Object 
+		{
+			if (property == P_IS_TWEENING) {
+				if (current != target) return true;
+				else return null;
+			}
+			return super.getProperty(property, componentClass);
+		}
 		
 		override public function handleMessage(message:String, data:Object = null):int 
 		{
