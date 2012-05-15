@@ -51,7 +51,17 @@ package nl.jorisdormans.phantom2D.core
 			super.onAdd(composite);
 			layer = composite as Layer;
 			if (layer) {
-				layer.sprite.addChild(sprite);
+				var index:int = 0;
+				for (var i:int = 0; i < composite.components.length; i++) {
+					if (composite.components[i] == this) {
+						layer.sprite.addChildAt(sprite, index);
+						break;
+					}
+					if (composite.components[i] is Layer) {
+						index++;
+					}
+				}
+				
 			}
 			gameScreen = composite as Screen;
 		}

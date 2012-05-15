@@ -50,8 +50,28 @@ package nl.jorisdormans.phantom2D.core
 				component.onAdd(this);
 			}
 			return component;
-			
 		}	
+		
+		public function insertComponent(component:Component, index:int):Component {
+			if (index >= components.length) {
+				return addComponent(component);
+			}
+			if (component) {
+				component.parent = this;
+				components.splice(index, 0, component);
+				component.onAdd(this);
+			}
+			return component;
+		}
+		
+		public function insertComponentBefore(component:Component, before:Component):Component {
+			for (var i:int = 0; i < components.length; i++) {
+				if (components[i] == before) {
+					return insertComponent(component, i);
+				}
+			}
+			return addComponent(component);
+		}
 		
 		/**
 		 * Disposes all components

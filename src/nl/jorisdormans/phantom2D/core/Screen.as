@@ -325,6 +325,15 @@ package nl.jorisdormans.phantom2D.core
 			return super.addComponent(component);
 		}
 		
+		override public function insertComponent(component:Component, index:int):Component 
+		{
+			if (component is Layer) {
+				maxWidth = Math.max((component as Layer).layerWidth, maxWidth);
+				maxHeight = Math.max((component as Layer).layerHeight, maxHeight);
+			}
+			return super.insertComponent(component, index);
+		}
+		
 		override public function handleInput(elapsedTime:Number, currentState:InputState, previousState:InputState):void 
 		{
 			var l:int = components.length;
