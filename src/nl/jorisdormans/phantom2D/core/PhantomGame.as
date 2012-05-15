@@ -137,7 +137,6 @@ package nl.jorisdormans.phantom2D.core
 		 */
 		private function onKeyDown(e:KeyboardEvent):void 
 		{
-			trace(doDefaultKeys);
 			if (doDefaultKeys) {
 				//trace("Key down", e.keyCode);
 				if (e.keyCode == 80) {
