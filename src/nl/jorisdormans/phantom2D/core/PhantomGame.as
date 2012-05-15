@@ -18,6 +18,8 @@ package nl.jorisdormans.phantom2D.core
 		static public var volumeMusic:Number = 1;
 		static public var volumeMaster:Number = 1;
 		
+		static public var doDefaultKeys:Boolean;
+		
 		/**
 		 * Holds the current InputState. Compare to previousInputState to see respond to key presses and releases.
 		 */
@@ -75,6 +77,7 @@ package nl.jorisdormans.phantom2D.core
 		 */
 		public function PhantomGame(width:Number, height:Number) 
 		{
+			doDefaultKeys = true;
 			screens = new Vector.<Screen>();
 			currentInputState = new InputState();
 			previousInputState = new InputState();
@@ -134,20 +137,23 @@ package nl.jorisdormans.phantom2D.core
 		 */
 		private function onKeyDown(e:KeyboardEvent):void 
 		{
-			//trace("Key down", e.keyCode);
-			if (e.keyCode == 80) {
-				if (prof.parent) {
-					prof.parent.removeChild(prof);
-				} else {
-					addChild(prof);
+			trace(doDefaultKeys);
+			if (doDefaultKeys) {
+				//trace("Key down", e.keyCode);
+				if (e.keyCode == 80) {
+					if (prof.parent) {
+						prof.parent.removeChild(prof);
+					} else {
+						addChild(prof);
+					}
 				}
-			}
-			if (e.keyCode == 69) {
-				if (editor && editor.parent) {
-					//removeScreen(editor);
-				} else {
-					editor = new Editor(gameWidth, gameHeight);
-					addScreen(editor);
+				if (e.keyCode == 69) {
+					if (editor && editor.parent) {
+						//removeScreen(editor);
+					} else {
+						editor = new Editor(gameWidth, gameHeight);
+						addScreen(editor);
+					}
 				}
 			}
 		}
