@@ -9,6 +9,9 @@ package nl.jorisdormans.phantom2D.gui
 	public class Draggable extends Component 
 	{
 		public var velocityEndWeight:Number;
+		static public const M_START_DRAG:String = "startDrag";
+		static public const M_DRAG_TO:String = "dragTo";
+		static public const M_STOP_DRAG:String = "stopDrag";
 		
 		public function Draggable() 
 		{
@@ -19,13 +22,13 @@ package nl.jorisdormans.phantom2D.gui
 		override public function handleMessage(message:String, data:Object = null):int 
 		{
 			switch(message) {
-				case "startDrag":
+				case M_START_DRAG:
 					this.gameObject.doResponse = false;
 					if(this.gameObject.mover){
 						this.gameObject.mover.applyMovement = false;
 					}
 					break;
-				case "dragTo":
+				case M_DRAG_TO:
 					if (data && data.x && data.y) {
 						if (this.gameObject.mover) {
 							var dx:Number = data.x - this.gameObject.position.x;
@@ -41,7 +44,7 @@ package nl.jorisdormans.phantom2D.gui
 						this.gameObject.position.y = data.y;
 					}
 					break;
-				case "stopDrag":
+				case M_STOP_DRAG:
 					this.gameObject.doResponse = true;
 					if(this.gameObject.mover){
 						this.gameObject.mover.applyMovement = true;
