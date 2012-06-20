@@ -67,6 +67,9 @@ package nl.jorisdormans.phantom2D.tweening
 			if (start.alpha != undefined && end.alpha != undefined ) {
 				layer.sprite.alpha = interpolate(start.alpha, end.alpha, value);
 			}
+			if (start.rotation != undefined && end.rotation != undefined ) {
+				layer.sprite.rotation = interpolate(start.rotation, end.rotation, value);
+			}
 			if (start.x != undefined && end.x != undefined ) {
 				layer.sprite.x = interpolate(start.x, end.x, value);
 			}
