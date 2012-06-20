@@ -12,13 +12,15 @@ package nl.jorisdormans.phantom2D.graphics
 	public class PhantomSpriteRenderer extends Component implements IRenderable
 	{
 		private var sprite:PhantomSprite;
+		public var scale:Number;
 		public var frame:int;
 		public var angle:Number;
 		public var offset:Vector3D;
 		
 		
-		public function PhantomSpriteRenderer(sprite:PhantomSprite, frame:int = 0) 
+		public function PhantomSpriteRenderer(sprite:PhantomSprite, frame:int = 0, scale:Number = 1) 
 		{
+			this.scale = scale;
 			this.frame = frame;
 			this.sprite = sprite;
 			angle = 0;
@@ -32,6 +34,9 @@ package nl.jorisdormans.phantom2D.graphics
 			angle += this.angle;
 			x += offset.x;
 			y += offset.y;
+			
+			zoom *= scale;
+			
 			if (angle == 0 && zoom == 1) {
 				sprite.renderFast(graphics, x, y, frame);
 			} else {
