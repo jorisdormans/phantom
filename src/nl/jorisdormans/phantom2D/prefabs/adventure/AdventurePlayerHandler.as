@@ -38,7 +38,7 @@
 			}
 			
 			if (currentState.keySpace && !previousState.keySpace) {
-				gameObject.handleMessage("action");
+				gameObject.sendMessage("action");
 			}
 		}
 		
